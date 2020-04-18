@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using MVCWithBlazor.Models;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MVCWithBlazor.Data
 {
-    public class ReportDbContext : DbContext
+    public class ReportDbContext : IdentityDbContext
     {
         public ReportDbContext(DbContextOptions<ReportDbContext> options)
             : base(options)
