@@ -33,16 +33,20 @@ namespace MVCWithBlazor
             services.AddDbContext<ReportDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ReportDbContext>(); // Add Identity 
+
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ReportDbContext>().AddDefaultTokenProviders(); // Add Identity 
             // Set different options for Identity
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequiredLength = 4;
+                options.Password.RequireUppercase = false;
                 options.Password.RequireDigit = true;
                 options.Password.RequireNonAlphanumeric = false;
 
                 options.Lockout.MaxFailedAccessAttempts = 3; // After 3 attempts lock account
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10); // for a period of time
+
+                options.SignIn.RequireConfirmedEmail = true; // Nedded to confirm email adress acout
             });
             services.ConfigureApplicationCookie(options => // Set authentification to redirect to login and accessdenied actions 
             {
@@ -51,6 +55,9 @@ namespace MVCWithBlazor
             });
             services.AddRazorPages(); // Added for Razor Pages
             services.AddServerSideBlazor(); // Added for Blazor
+
+            services.Configure<SmtpOptions>(Configuration.GetSection("Smtp")); // Load Options for Mail sender
+            services.AddSingleton<IEmailSender, SmtpEmailSender>();
             services.AddControllersWithViews(); // Add MVC
         }
 
