@@ -52,6 +52,7 @@ namespace MVCWithBlazor
             {
                 options.LoginPath = "/Identity/Signin";
                 options.AccessDeniedPath = "/Identiy/AccessDenied";
+                options.ExpireTimeSpan = TimeSpan.FromDays(1);
             });
             services.AddRazorPages(); // Added for Razor Pages
             services.AddServerSideBlazor(); // Added for Blazor

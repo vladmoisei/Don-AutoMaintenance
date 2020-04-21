@@ -12,11 +12,13 @@ namespace MVCWithBlazor.Controllers
     public class IdentityController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signinManager;
         private readonly IEmailSender _emailSender;
 
-        public IdentityController(UserManager<IdentityUser> userManager, IEmailSender emailSender)
+        public IdentityController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signinManager,IEmailSender emailSender)
         {
-            _userManager = userManager; 
+            _userManager = userManager;
+            _signinManager = signinManager;
             _emailSender = emailSender;
         }
         public async Task<IActionResult> SignUp()
@@ -64,14 +66,38 @@ namespace MVCWithBlazor.Controllers
             }
             return new NotFoundResult();
         }
-        public async Task<IActionResult> SignIn()
+        public IActionResult SignIn()
         {
-            return View();
+            return View(new SigninViewModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SignIn(SigninViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _signinManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("Login", "Can\'t login.");
+                }
+            }
+            return View(model);
         }
 
         public async Task<IActionResult> AccessDenied()
         {
             return View();
+        }
+
+        public async Task<IActionResult> Signout()
+        {
+            await _signinManager.SignOutAsync();
+            return RedirectToAction("Signin");
         }
     }
 }
