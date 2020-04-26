@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - MVCWithBlazor</title>
+    <base href="/" /> @*For Blazor*@ 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link href="~/lib/datatable/datatables.css" rel="stylesheet" /> @*datatable*@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> @*Jquery Ui:*@
@@ -29,6 +30,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Test" asp-action="Index">Test</a>
                         </li>
+                        <partial name="_Identity" />
                     </ul>
                 </div>
             </div>

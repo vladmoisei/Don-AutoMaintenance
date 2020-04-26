@@ -23,17 +23,19 @@ namespace MVCWithBlazor.Controllers
         {
             return View();
         }
-        [Authorize]
+        [Authorize(Roles = "Member, Admin")]
+        [Authorize(Policy = "Dep")]
         public IActionResult Member()
         {
             return View();
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public IActionResult Admin()
         {
             return View();
         }
+        [Authorize]
         public IActionResult Privacy()
         {
             return View();

@@ -14,5 +14,9 @@ namespace MVCWithBlazor.Models
         [Required]
         [DataType(DataType.Password, ErrorMessage = "The password is incorrect or missing!")]
         public string Password { get; set; }
+        [Required]
+        public string Role { get; set; }
+        [Required]
+        public string Department { get; set; }
     }
 }

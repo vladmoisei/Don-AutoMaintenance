@@ -46,12 +46,12 @@ namespace MVCWithBlazor
                 options.Lockout.MaxFailedAccessAttempts = 3; // After 3 attempts lock account
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10); // for a period of time
 
-                options.SignIn.RequireConfirmedEmail = true; // Nedded to confirm email adress acout
+                //options.SignIn.RequireConfirmedEmail = true; // Nedded to confirm email adress acount
             });
             services.ConfigureApplicationCookie(options => // Set authentification to redirect to login and accessdenied actions 
             {
                 options.LoginPath = "/Identity/Signin";
-                options.AccessDeniedPath = "/Identiy/AccessDenied";
+                options.AccessDeniedPath = "/Identity/AccessDenied";
                 options.ExpireTimeSpan = TimeSpan.FromDays(1);
             });
             services.AddRazorPages(); // Added for Razor Pages
@@ -59,6 +59,17 @@ namespace MVCWithBlazor
 
             services.Configure<SmtpOptions>(Configuration.GetSection("Smtp")); // Load Options for Mail sender
             services.AddSingleton<IEmailSender, SmtpEmailSender>();
+            services.AddAuthorization(option =>
+            {
+                option.AddPolicy("Dep", p =>
+                {
+                    // You can put only type of claim
+                    // If you want values of claim add them after comma
+                    p.RequireClaim("Department", "Mentenanta", "Calitate", "tech"); // You can add also role: .RequireRole("Member");
+                });
+                // You can add more policies
+
+            });
             services.AddControllersWithViews(); // Add MVC
         }
 
@@ -79,7 +90,7 @@ namespace MVCWithBlazor
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
-            app.UseAuthorization(); // Add Identity
+            app.UseAuthentication(); // Add Identity
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
