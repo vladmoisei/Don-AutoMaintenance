@@ -53,6 +53,83 @@ namespace MVCWithBlazor.Migrations
                     b.ToTable("Plcs");
                 });
 
+            modelBuilder.Entity("MVCWithBlazor.Models.ProblemaModel", b =>
+                {
+                    b.Property<int>("ProblemaModelID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ComentariuMentenanta")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
+
+                    b.Property<DateTime>("DataIntroducere")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastPersonUpdateRow")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
+
+                    b.Property<string>("ProblemaDescriere")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
+
+                    b.Property<int?>("ResponsabilModelID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Stare")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("TermenFinalizare")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("UtilajModelID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProblemaModelID");
+
+                    b.HasIndex("ResponsabilModelID");
+
+                    b.HasIndex("UtilajModelID");
+
+                    b.ToTable("ProblemaModels");
+                });
+
+            modelBuilder.Entity("MVCWithBlazor.Models.ResponsabilModel", b =>
+                {
+                    b.Property<int>("ResponsabilModelID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Functie")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Nume")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Prenume")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("ResponsabilModelID");
+
+                    b.ToTable("ResponsabilModel");
+                });
+
             modelBuilder.Entity("MVCWithBlazor.Models.TagModel", b =>
                 {
                     b.Property<int>("TagID")
@@ -83,6 +160,26 @@ namespace MVCWithBlazor.Migrations
                     b.HasIndex("PlcModelID");
 
                     b.ToTable("Tags");
+                });
+
+            modelBuilder.Entity("MVCWithBlazor.Models.UtilajModel", b =>
+                {
+                    b.Property<int>("UtilajModelID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Utilaj")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<int>("ZonaUtilaj")
+                        .HasColumnType("int");
+
+                    b.HasKey("UtilajModelID");
+
+                    b.ToTable("UtilajModels");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -279,6 +376,17 @@ namespace MVCWithBlazor.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("MVCWithBlazor.Models.ProblemaModel", b =>
+                {
+                    b.HasOne("MVCWithBlazor.Models.ResponsabilModel", "ResponsabilModel")
+                        .WithMany()
+                        .HasForeignKey("ResponsabilModelID");
+
+                    b.HasOne("MVCWithBlazor.Models.UtilajModel", "UtilajModel")
+                        .WithMany()
+                        .HasForeignKey("UtilajModelID");
                 });
 
             modelBuilder.Entity("MVCWithBlazor.Models.TagModel", b =>

@@ -1,12 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-
-//datusing System;
-//using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MVCWithBlazor.Migrations
 {
-    public partial class AddIdentityUSer : Migration
+    public partial class Test3DB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -47,6 +44,54 @@ namespace MVCWithBlazor.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Plcs",
+                columns: table => new
+                {
+                    PlcModelID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
+                    DataCreation = table.Column<DateTime>(nullable: false),
+                    IsEnable = table.Column<bool>(nullable: false),
+                    Ip = table.Column<string>(maxLength: 15, nullable: false),
+                    Rack = table.Column<short>(nullable: false),
+                    Slot = table.Column<short>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Plcs", x => x.PlcModelID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ResponsabilModel",
+                columns: table => new
+                {
+                    ResponsabilModelID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nume = table.Column<string>(maxLength: 50, nullable: false),
+                    Prenume = table.Column<string>(maxLength: 50, nullable: false),
+                    Email = table.Column<string>(nullable: false),
+                    Functie = table.Column<string>(maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ResponsabilModel", x => x.ResponsabilModelID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UtilajModels",
+                columns: table => new
+                {
+                    UtilajModelID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Utilaj = table.Column<string>(maxLength: 50, nullable: false),
+                    ZonaUtilaj = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UtilajModels", x => x.UtilajModelID);
                 });
 
             migrationBuilder.CreateTable(
@@ -155,6 +200,60 @@ namespace MVCWithBlazor.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Tags",
+                columns: table => new
+                {
+                    TagID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
+                    Value = table.Column<string>(maxLength: 50, nullable: false),
+                    Adress = table.Column<string>(maxLength: 50, nullable: false),
+                    PlcModelID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tags", x => x.TagID);
+                    table.ForeignKey(
+                        name: "FK_Tags_Plcs_PlcModelID",
+                        column: x => x.PlcModelID,
+                        principalTable: "Plcs",
+                        principalColumn: "PlcModelID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProblemaModels",
+                columns: table => new
+                {
+                    ProblemaModelID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DataIntroducere = table.Column<DateTime>(nullable: false),
+                    UtilajModelID = table.Column<int>(nullable: true),
+                    ProblemaDescriere = table.Column<string>(maxLength: 250, nullable: false),
+                    ComentariuMentenanta = table.Column<string>(maxLength: 250, nullable: false),
+                    Stare = table.Column<int>(nullable: true),
+                    ResponsabilModelID = table.Column<int>(nullable: true),
+                    TermenFinalizare = table.Column<DateTime>(nullable: true),
+                    LastPersonUpdateRow = table.Column<string>(maxLength: 250, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProblemaModels", x => x.ProblemaModelID);
+                    table.ForeignKey(
+                        name: "FK_ProblemaModels_ResponsabilModel_ResponsabilModelID",
+                        column: x => x.ResponsabilModelID,
+                        principalTable: "ResponsabilModel",
+                        principalColumn: "ResponsabilModelID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ProblemaModels_UtilajModels_UtilajModelID",
+                        column: x => x.UtilajModelID,
+                        principalTable: "UtilajModels",
+                        principalColumn: "UtilajModelID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -193,6 +292,21 @@ namespace MVCWithBlazor.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProblemaModels_ResponsabilModelID",
+                table: "ProblemaModels",
+                column: "ResponsabilModelID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProblemaModels_UtilajModelID",
+                table: "ProblemaModels",
+                column: "UtilajModelID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tags_PlcModelID",
+                table: "Tags",
+                column: "PlcModelID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -213,10 +327,25 @@ namespace MVCWithBlazor.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ProblemaModels");
+
+            migrationBuilder.DropTable(
+                name: "Tags");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "ResponsabilModel");
+
+            migrationBuilder.DropTable(
+                name: "UtilajModels");
+
+            migrationBuilder.DropTable(
+                name: "Plcs");
         }
     }
 }
