@@ -5,9 +5,6 @@ using System.Threading.Tasks;
 
 namespace MVCWithBlazor.Data
 {
-    public class EnumsList
-    {
-    }
 
     public enum Zona
     {
@@ -20,5 +17,17 @@ namespace MVCWithBlazor.Data
         Nerezolvat,
         Rezolvat,
         InLucru
+    }
+
+    public enum Departament
+    {
+        Mentenanta,
+        BirouTehnic,
+        Ajustaj,
+        Laminor,
+        Calitate,
+        Achizitii,
+        Opex,
+        Mediu
     }
 }

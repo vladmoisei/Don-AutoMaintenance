@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MVCWithBlazor.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -33,8 +34,11 @@ namespace MVCWithBlazor.Models
         [EmailAddress(ErrorMessage = "Adresa de email invalida.")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Functi este obligatorie! ")]
+        [Required(ErrorMessage = "Functia este obligatorie! ")]
         [StringLength(50, ErrorMessage = "Functia nu poate depasi 50 de caractere! ")]
         public string Functie { get; set; }
+
+        [Required(ErrorMessage = "Departamentul este obligatoriu! ")]
+        public Departament Departament { get; set; }
     }
 }

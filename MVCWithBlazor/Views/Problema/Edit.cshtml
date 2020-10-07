@@ -1,0 +1,69 @@
+﻿@model MVCWithBlazor.Models.ProblemaModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>ProblemaModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ProblemaModelID" />
+            <div class="form-group">
+                <label asp-for="DataIntroducere" class="control-label"></label>
+                <input asp-for="DataIntroducere" class="form-control" />
+                <span asp-validation-for="DataIntroducere" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UtilajModelID" class="control-label"></label>
+                <select asp-for="UtilajModelID" class="form-control" asp-items="ViewBag.UtilajModelID"></select>
+                <span asp-validation-for="UtilajModelID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProblemaDescriere" class="control-label"></label>
+                <input asp-for="ProblemaDescriere" class="form-control" />
+                <span asp-validation-for="ProblemaDescriere" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ComentariuMentenanta" class="control-label"></label>
+                <input asp-for="ComentariuMentenanta" class="form-control" />
+                <span asp-validation-for="ComentariuMentenanta" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Stare" class="control-label"></label>
+                <input asp-for="Stare" class="form-control" />
+                <span asp-validation-for="Stare" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ResponsabilModelID" class="control-label"></label>
+                <select asp-for="ResponsabilModelID" class="form-control" asp-items="ViewBag.ResponsabilModelID"></select>
+                <span asp-validation-for="ResponsabilModelID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TermenFinalizare" class="control-label"></label>
+                <input asp-for="TermenFinalizare" class="form-control" />
+                <span asp-validation-for="TermenFinalizare" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastPersonUpdateRow" class="control-label"></label>
+                <input asp-for="LastPersonUpdateRow" class="form-control" />
+                <span asp-validation-for="LastPersonUpdateRow" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

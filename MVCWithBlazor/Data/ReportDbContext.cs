@@ -18,5 +18,6 @@ namespace MVCWithBlazor.Data
         public DbSet<TagModel> Tags { get; set; }
         public DbSet<UtilajModel> UtilajModels { get; set; }
         public DbSet<ProblemaModel> ProblemaModels { get; set; }
+        public DbSet<MVCWithBlazor.Models.ResponsabilModel> ResponsabilModel { get; set; }
     }
 }

@@ -25,10 +25,12 @@ namespace MVCWithBlazor.Models
 
         [Required(ErrorMessage = "Descriere problema este obligatorie! ")]
         [StringLength(250, ErrorMessage = "Descrierea nu poate depasi 250 de caractere! ")]
+        [Display(Name = "Descriere Problema")]
         public string? ProblemaDescriere { get; set; }
 
         [Required(ErrorMessage = "Comentariu mentenanta este obligatorie! ")]
         [StringLength(250, ErrorMessage = "Comentariu mentenanta nu poate depasi 250 de caractere! ")]
+        [Display(Name = "Comentariu Mentenanta")]
         public string? ComentariuMentenanta { get; set; }
 
         public Status? Stare { get; set; }
