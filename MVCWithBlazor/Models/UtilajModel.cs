@@ -16,6 +16,7 @@ namespace MVCWithBlazor.Models
         [StringLength(50, ErrorMessage = "Nume utilaj nu poate depasi 50 caractere.")]
         public string Utilaj { get; set; }
 
+        [Display(Name = "Zona")]
         [Required(ErrorMessage = "Zona utilaj este obligatoriu! ")]
         public Zona ZonaUtilaj { get; set; }
     }

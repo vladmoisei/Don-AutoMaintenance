@@ -5,10 +5,13 @@
 }
 
 <h1>Index</h1>
+@if (User.IsInRole("BirouTehnic") || User.IsInRole("Ajustaj") || User.IsInRole("Admin") || User.IsInRole("Laminor"))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -40,38 +43,39 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataIntroducere)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UtilajModel.Utilaj)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProblemaDescriere)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ComentariuMentenanta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stare)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ResponsabilModel.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TermenFinalizare)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastPersonUpdateRow)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ProblemaModelID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ProblemaModelID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ProblemaModelID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataIntroducere)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UtilajModel.Utilaj)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProblemaDescriere)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ComentariuMentenanta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stare)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ResponsabilModel.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TermenFinalizare)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastPersonUpdateRow)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ProblemaModelID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ProblemaModelID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ProblemaModelID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

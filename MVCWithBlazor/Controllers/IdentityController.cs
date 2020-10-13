@@ -108,6 +108,7 @@ namespace MVCWithBlazor.Controllers
                     //    ModelState.AddModelError("Claim", "User doesn\'t have claim department");
                     //    return View(model);
                     //}
+                    return RedirectToAction("Index", "Problema");
                     if (await _userManager.IsInRoleAsync(user, "Member"))
                     {
                         return RedirectToAction("Member", "Home");

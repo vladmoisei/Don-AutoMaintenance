@@ -2,6 +2,15 @@
 
 @{
     ViewData["Title"] = "Edit";
+    string nuArataTehnic = "";
+    string nuArataMentenanta = "";
+}
+@if (User.IsInRole("BirouTehnic"))
+{
+    nuArataTehnic = "d-none";
+} else if (User.IsInRole("Mentenanta"))
+{
+    nuArataMentenanta = "d-none";
 }
 
 <h1>Edit</h1>
@@ -13,44 +22,47 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ProblemaModelID" />
-            <div class="form-group">
+            <div class="form-group @nuArataMentenanta">
                 <label asp-for="DataIntroducere" class="control-label"></label>
                 <input asp-for="DataIntroducere" class="form-control" />
                 <span asp-validation-for="DataIntroducere" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group @nuArataMentenanta">
                 <label asp-for="UtilajModelID" class="control-label"></label>
                 <select asp-for="UtilajModelID" class="form-control" asp-items="ViewBag.UtilajModelID"></select>
                 <span asp-validation-for="UtilajModelID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group @nuArataMentenanta">
                 <label asp-for="ProblemaDescriere" class="control-label"></label>
-                <input asp-for="ProblemaDescriere" class="form-control" />
+                <textarea rows="3" asp-for="ProblemaDescriere" class="form-control"></textarea>
                 <span asp-validation-for="ProblemaDescriere" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+            <div class="form-group @nuArataTehnic">
                 <label asp-for="ComentariuMentenanta" class="control-label"></label>
-                <input asp-for="ComentariuMentenanta" class="form-control" />
+                <textarea rows="3" asp-for="ComentariuMentenanta" class="form-control"></textarea>
                 <span asp-validation-for="ComentariuMentenanta" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group @nuArataTehnic">
                 <label asp-for="Stare" class="control-label"></label>
-                <input asp-for="Stare" class="form-control" />
+                @*<input asp-for="Stare" class="form-control"/>*@
+                <select asp-for="Stare" class="form-control" asp-items="Html.GetEnumSelectList<MVCWithBlazor.Data.Status>()"></select>
                 <span asp-validation-for="Stare" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group @nuArataTehnic">
                 <label asp-for="ResponsabilModelID" class="control-label"></label>
                 <select asp-for="ResponsabilModelID" class="form-control" asp-items="ViewBag.ResponsabilModelID"></select>
                 <span asp-validation-for="ResponsabilModelID" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group @nuArataTehnic">
                 <label asp-for="TermenFinalizare" class="control-label"></label>
                 <input asp-for="TermenFinalizare" class="form-control" />
                 <span asp-validation-for="TermenFinalizare" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+            <div class="form-group @nuArataTehnic @nuArataMentenanta">
                 <label asp-for="LastPersonUpdateRow" class="control-label"></label>
-                <input asp-for="LastPersonUpdateRow" class="form-control" />
+                <input asp-for="LastPersonUpdateRow" class="form-control" value="@User.Identity.Name"/>
                 <span asp-validation-for="LastPersonUpdateRow" class="text-danger"></span>
             </div>
             <div class="form-group">

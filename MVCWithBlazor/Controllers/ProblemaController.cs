@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using MVCWithBlazor.Models;
 
 namespace MVCWithBlazor.Controllers
 {
+    [Authorize]
     public class ProblemaController : Controller
     {
         private readonly ReportDbContext _context;
@@ -59,10 +61,12 @@ namespace MVCWithBlazor.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProblemaModelID,DataIntroducere,UtilajModelID,ProblemaDescriere,ComentariuMentenanta,Stare,ResponsabilModelID,TermenFinalizare,LastPersonUpdateRow")] ProblemaModel problemaModel)
+        public async Task<IActionResult> Create([Bind("ProblemaModelID,DataIntroducere,UtilajModelID,ProblemaDescriere,ComentariuMentenanta,LastPersonUpdateRow")] ProblemaModel problemaModel)
         {
             if (ModelState.IsValid)
             {
+                problemaModel.ComentariuMentenanta = "";
+                problemaModel.Stare = Status.Nerezolvat;
                 _context.Add(problemaModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
