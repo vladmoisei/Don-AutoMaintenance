@@ -1,4 +1,5 @@
-﻿@model IEnumerable<MVCWithBlazor.Models.ProblemaModel>
+﻿@using Syncfusion.EJ2
+@model IEnumerable<MVCWithBlazor.Models.ProblemaModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -12,70 +13,107 @@
     </p>
 }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DataIntroducere)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UtilajModel)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProblemaDescriere)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ComentariuMentenanta)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Stare)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ResponsabilModel)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TermenFinalizare)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastPersonUpdateRow)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DataIntroducere)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UtilajModel.Utilaj)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProblemaDescriere)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ComentariuMentenanta)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Stare)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ResponsabilModel.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TermenFinalizare)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastPersonUpdateRow)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.ProblemaModelID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ProblemaModelID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ProblemaModelID">Delete</a>
-                </td>
-            </tr>
+<div class="control-section">
+    <ejs-grid id="Grid" dataSource="ViewBag.dataSource" queryCellInfo="customiseCell" allowSorting="true" allowPaging="true" toolbar="@(new List<string>() { "Search" })">
+        <e-grid-pagesettings pageCount="5"></e-grid-pagesettings>
+        <e-grid-columns>
+            <e-grid-column field="DataIntroducere" headerText="Data Introducere" format="dd.MM.yyyy" width="120"></e-grid-column>
+            <e-grid-column field="UtilajModel.Utilaj" headerText="Utilaj" width="120"></e-grid-column>
+            <e-grid-column field="ProblemaDescriere" headerText="Descriere Problema" width="180"></e-grid-column>
+            <e-grid-column field="ComentariuMentenanta" headerText="Comentariu Mentenanta" width="180"></e-grid-column>
+            <e-grid-column field="Stare" headerText="Stare" width="140"></e-grid-column>
+            <e-grid-column field="ResponsabilModel.NumeComplet" headerText="Responsabil" width="150"></e-grid-column>
+            <e-grid-column field="TermenFinalizare" headerText="Termen finalizare" format="dd.MM.yyyy" width="120"></e-grid-column>
+            <e-grid-column field="LastPersonUpdateRow" headerText="Pers Update" width="150"></e-grid-column>
+
+            <e-grid-column template="<a href='/Problema/Edit/${ProblemaModelID}'>Edit</a> |
+                    <a href='/Problema/Details/${ProblemaModelID}'>Details</a> |
+                    <a href='/Problema/Delete/${ProblemaModelID}'>Delete</a>" headerText="Editare" width="150"></e-grid-column>
+        </e-grid-columns>
+    </ejs-grid>
+</div>
+@*Change color for each cell by StareAbonament Status*@
+@section Scripts{
+    <script type="text/javascript">
+        function customiseCell(args) {
+            if (args.column.field === 'Stare') {
+                if (args.data['Stare'] === '@MVCWithBlazor.Data.Status.Nerezolvat') {
+                    args.cell.classList.add('bgnd_red');
+                }
+                else if (args.data['Stare'] === '@MVCWithBlazor.Data.Status.Rezolvat') {
+                    args.cell.classList.add('bgnd_green');
+                }
+            }
         }
-    </tbody>
-</table>
+    </script>
+}
+
+
+    <h1>Old Table Asp.Net core (de sters)</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.DataIntroducere)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UtilajModel)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProblemaDescriere)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ComentariuMentenanta)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Stare)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ResponsabilModel)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TermenFinalizare)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastPersonUpdateRow)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataIntroducere)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UtilajModel.Utilaj)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProblemaDescriere)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ComentariuMentenanta)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Stare)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ResponsabilModel.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TermenFinalizare)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastPersonUpdateRow)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ProblemaModelID">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.ProblemaModelID">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.ProblemaModelID">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

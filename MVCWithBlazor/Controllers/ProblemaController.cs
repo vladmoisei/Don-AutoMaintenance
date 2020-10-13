@@ -25,6 +25,7 @@ namespace MVCWithBlazor.Controllers
         public async Task<IActionResult> Index()
         {
             var reportDbContext = _context.ProblemaModels.Include(p => p.ResponsabilModel).Include(p => p.UtilajModel);
+            ViewBag.dataSource = await reportDbContext.ToListAsync();
             return View(await reportDbContext.ToListAsync());
         }
 

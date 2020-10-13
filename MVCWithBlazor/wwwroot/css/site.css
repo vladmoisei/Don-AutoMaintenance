@@ -78,3 +78,12 @@ body {
 .validation-summary-errors {
     color: red;
 }
+
+/*Added by me*/
+.bgnd_red {
+    background-color: red;
+}
+
+.bgnd_green {
+    background-color: green;
+}

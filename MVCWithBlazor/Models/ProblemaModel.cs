@@ -33,6 +33,7 @@ namespace MVCWithBlazor.Models
         [Display(Name = "Comentariu Mentenanta")]
         public string? ComentariuMentenanta { get; set; }
 
+        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
         public Status? Stare { get; set; }
 
         [Display(Name = "Responsabil")]
