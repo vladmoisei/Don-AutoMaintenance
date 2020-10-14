@@ -24,7 +24,22 @@ namespace MVCWithBlazor.Controllers
         // GET: Problema
         public async Task<IActionResult> Index()
         {
-            var reportDbContext = _context.ProblemaModels.Include(p => p.ResponsabilModel).Include(p => p.UtilajModel);
+            ViewBag.fromDate = DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd");
+            ViewBag.toDate = DateTime.Now.ToString("yyyy-MM-dd");
+            var reportDbContext = _context.ProblemaModels.Include(p => p.ResponsabilModel).Include(p => p.UtilajModel).OrderByDescending(data => data.DataIntroducere).Where(d => d.DataIntroducere.CompareTo(DateTime.Now.AddMonths(-1)) >= 0 && d.DataIntroducere.CompareTo(DateTime.Now) <= 0);
+
+            ViewBag.dataSource = await reportDbContext.ToListAsync();
+            return View(await reportDbContext.ToListAsync());
+        }
+
+        // POST: Problema
+        [HttpPost]
+        public async Task<IActionResult> Index(DateTime fromDate, DateTime toDate)
+        {
+            ViewBag.fromDate = fromDate.ToString("yyyy-MM-dd");
+            ViewBag.toDate = toDate.ToString("yyyy-MM-dd");
+            var reportDbContext = _context.ProblemaModels.Include(p => p.ResponsabilModel).Include(p => p.UtilajModel).OrderByDescending(data => data.DataIntroducere).Where(d => d.DataIntroducere.CompareTo(fromDate) >= 0 && d.DataIntroducere.CompareTo(toDate) <= 0);
+
             ViewBag.dataSource = await reportDbContext.ToListAsync();
             return View(await reportDbContext.ToListAsync());
         }

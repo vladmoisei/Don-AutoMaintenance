@@ -13,6 +13,23 @@
     </p>
 }
 
+<form asp-action="Index">
+    <div class="row">
+        <div class="col-md-4">
+            <label for="fromDate">From</label>
+            <input type="date" id="fromDate" name="fromDate" class="form-control" value="@ViewBag.fromDate" />
+        </div>
+        <div class="col-md-4">
+            <label for="toDate">To</label>
+            <input type="date" id="toDate" name="toDate" class="form-control" value="@ViewBag.toDate" />
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-primary" type="submit">Afiseaza</button>
+        </div>
+    </div>
+</form>
+<br />
+
 <div class="control-section">
     <ejs-grid id="Grid" dataSource="ViewBag.dataSource" allowTextWrap="true" queryCellInfo="customiseCell" allowSorting="true" allowPaging="true" allowExcelExport="true" toolbarClick="toolbarClick" toolbar="@(new List<string>() { "Search" , "ExcelExport"})">
         <e-grid-pagesettings pageCount="5"></e-grid-pagesettings>
@@ -56,7 +73,7 @@
 }
 
 
-    @*<h1>Old Table Asp.Net core (de sters)</h1>
+@*<h1>Old Table Asp.Net core (de sters)</h1>
     <table class="table">
         <thead>
             <tr>
