@@ -14,17 +14,17 @@
 }
 
 <div class="control-section">
-    <ejs-grid id="Grid" dataSource="ViewBag.dataSource" queryCellInfo="customiseCell" allowSorting="true" allowPaging="true" toolbar="@(new List<string>() { "Search" })">
+    <ejs-grid id="Grid" dataSource="ViewBag.dataSource" allowTextWrap="true" queryCellInfo="customiseCell" allowSorting="true" allowPaging="true" allowExcelExport="true" toolbarClick="toolbarClick" toolbar="@(new List<string>() { "Search" , "ExcelExport"})">
         <e-grid-pagesettings pageCount="5"></e-grid-pagesettings>
         <e-grid-columns>
             <e-grid-column field="DataIntroducere" headerText="Data Introducere" format="dd.MM.yyyy" width="120"></e-grid-column>
             <e-grid-column field="UtilajModel.Utilaj" headerText="Utilaj" width="120"></e-grid-column>
             <e-grid-column field="ProblemaDescriere" headerText="Descriere Problema" width="180"></e-grid-column>
             <e-grid-column field="ComentariuMentenanta" headerText="Comentariu Mentenanta" width="180"></e-grid-column>
-            <e-grid-column field="Stare" headerText="Stare" width="140"></e-grid-column>
-            <e-grid-column field="ResponsabilModel.NumeComplet" headerText="Responsabil" width="150"></e-grid-column>
+            <e-grid-column field="Stare" headerText="Stare" width="120"></e-grid-column>
+            <e-grid-column field="ResponsabilModel.NumeComplet" headerText="Responsabil" width="140"></e-grid-column>
             <e-grid-column field="TermenFinalizare" headerText="Termen finalizare" format="dd.MM.yyyy" width="120"></e-grid-column>
-            <e-grid-column field="LastPersonUpdateRow" headerText="Pers Update" width="150"></e-grid-column>
+            <e-grid-column field="LastPersonUpdateRow" headerText="Pers Update" width="160"></e-grid-column>
 
             <e-grid-column template="<a href='/Problema/Edit/${ProblemaModelID}'>Edit</a> |
                     <a href='/Problema/Details/${ProblemaModelID}'>Details</a> |
@@ -45,11 +45,18 @@
                 }
             }
         }
+
+        function toolbarClick(args) {
+            var gridObj = document.getElementById("Grid").ej2_instances[0];
+            if (args.item.id === 'Grid_excelexport') {
+                gridObj.excelExport();
+            }
+        }
     </script>
 }
 
 
-    <h1>Old Table Asp.Net core (de sters)</h1>
+    @*<h1>Old Table Asp.Net core (de sters)</h1>
     <table class="table">
         <thead>
             <tr>
@@ -116,4 +123,4 @@
                 </tr>
             }
         </tbody>
-    </table>
+    </table>*@
