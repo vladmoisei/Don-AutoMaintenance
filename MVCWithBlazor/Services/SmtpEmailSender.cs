@@ -1,6 +1,10 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Options;
+using MVCWithBlazor.Models;
+using System.IO;
 using System.Net;
 using System.Net.Mail;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace MVCWithBlazor.Services
@@ -23,6 +27,33 @@ namespace MVCWithBlazor.Services
             {
                 await client.SendMailAsync(mailMessage);
             }
+        }
+
+        // Create JSON File with 
+        public string WriteToJsonMailData(MailModel mailModel, IWebHostEnvironment env)
+        {
+            string mailFileName = $"MailDate.JSON";
+            string wwwPath = env.WebRootPath;
+            string filePath = Path.Combine(wwwPath, "Fisiere");
+            if (!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(filePath);
+            }
+            filePath = Path.Combine(filePath, mailFileName).ToString();
+            string jsonString = JsonSerializer.Serialize(mailModel, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(filePath, jsonString);
+            return filePath;
+        }
+
+        // Return mailDataModel From Json File
+        public async Task<MailModel> GetMailModelAsync(string filePath)
+        {
+            MailModel mailModel;
+            using (FileStream fs = File.OpenRead(filePath))
+            {
+                mailModel = await JsonSerializer.DeserializeAsync<MailModel>(fs);
+            }
+            return mailModel;
         }
     }
 }

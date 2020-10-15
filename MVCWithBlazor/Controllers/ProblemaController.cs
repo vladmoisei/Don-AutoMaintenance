@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MVCWithBlazor.Data;
 using MVCWithBlazor.Models;
+using MVCWithBlazor.Services;
 
 namespace MVCWithBlazor.Controllers
 {
@@ -15,10 +18,14 @@ namespace MVCWithBlazor.Controllers
     public class ProblemaController : Controller
     {
         private readonly ReportDbContext _context;
+        private readonly IEmailSender _emailSender;
+        private readonly IWebHostEnvironment _env;
 
-        public ProblemaController(ReportDbContext context)
+        public ProblemaController(ReportDbContext context, IEmailSender emailSender, IWebHostEnvironment env)
         {
             _context = context;
+            _emailSender = emailSender;
+            _env = env;
         }
 
         // GET: Problema
@@ -42,6 +49,22 @@ namespace MVCWithBlazor.Controllers
 
             ViewBag.dataSource = await reportDbContext.ToListAsync();
             return View(await reportDbContext.ToListAsync());
+        }
+
+        public IActionResult MailService()
+        {
+            string filePath = Path.Combine(_env.WebRootPath, "Fisiere\\MailDate.JSON");
+            MailModel mailModel = _emailSender.GetMailModelAsync(filePath).Result;
+            return View(mailModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult MailService([Bind("FromAdress,ToAddress,Subjsect,Messaege,FilePathFisierDeTrimis")] MailModel mailModel)
+        {
+            string filePath = _emailSender.WriteToJsonMailData(mailModel, _env);
+            //MailModel mailModel1 = _reportService.GetMailModelAsync(filePath).Result;
+            return View(mailModel);
         }
 
         // GET: Problema/Details/5
@@ -85,6 +108,12 @@ namespace MVCWithBlazor.Controllers
                 problemaModel.Stare = Status.Nerezolvat;
                 _context.Add(problemaModel);
                 await _context.SaveChangesAsync();
+
+                // Send Mail
+                string filePathMailModel = Path.Combine(_env.WebRootPath, "Fisiere\\MailDate.JSON");
+                MailModel mailModel = _emailSender.GetMailModelAsync(filePathMailModel).Result;
+                await _emailSender.SendEmailAsync(mailModel.FromAdress, mailModel.ToAddress, mailModel.Subjsect, problemaModel.LastPersonUpdateRow + mailModel.Messaege + problemaModel.ProblemaDescriere + $" la utilajul: {problemaModel.UtilajModel}");
+                
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ResponsabilModelID"] = new SelectList(_context.ResponsabilModel, "ResponsabilModelID", "Email", problemaModel.ResponsabilModelID);
