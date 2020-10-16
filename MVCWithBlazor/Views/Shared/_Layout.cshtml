@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - MVCWithBlazor</title>
+    <title>@ViewData["Title"] - Mentenanta</title>
     <base href="/" /> @*For Blazor*@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link href="~/lib/datatable/datatables.css" rel="stylesheet" /> @*datatable*@
@@ -18,7 +18,10 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MVCWithBlazor</a>
+                @*<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MVCWithBlazor</a>*@
+                <a class="navbar-brand" href="/">
+                    <img src="/img/ImagDonalam.png" alt="Imag Sigla Donalam" class="imagine">
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -29,26 +32,26 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Responsabil" asp-action="Index">Responsabili</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Utilaj" asp-action="Index">Utilaje</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Problema" asp-action="Index">Probleme</a>
                         </li>
-                        @if (User.IsInRole("Admin")) 
+                        @if (User.IsInRole("Admin"))
                         {
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Problema" asp-action="MailService">Mail Serviciu</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Responsabil" asp-action="Index">Responsabili</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Utilaj" asp-action="Index">Utilaje</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Problema" asp-action="MailService">Mail Serviciu</a>
+                            </li>
                         }
                         @*<li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </li>*@
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </li>*@
                         @*<li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Test" asp-action="Index">Test</a>
-        </li>*@
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Test" asp-action="Index">Test</a>
+                </li>*@
                         <partial name="_Identity" />
                     </ul>
                 </div>
@@ -63,7 +66,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - MVCWithBlazor - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2020 - Vlad Moisei - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

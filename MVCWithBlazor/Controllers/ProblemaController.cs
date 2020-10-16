@@ -112,7 +112,8 @@ namespace MVCWithBlazor.Controllers
                 // Send Mail
                 string filePathMailModel = Path.Combine(_env.WebRootPath, "Fisiere\\MailDate.JSON");
                 MailModel mailModel = _emailSender.GetMailModelAsync(filePathMailModel).Result;
-                await _emailSender.SendEmailAsync(mailModel.FromAdress, mailModel.ToAddress, mailModel.Subjsect, problemaModel.LastPersonUpdateRow + mailModel.Messaege + problemaModel.ProblemaDescriere + $" la utilajul: {problemaModel.UtilajModel}");
+                UtilajModel utilajName = _context.UtilajModels.FirstOrDefault(utilaj => utilaj.UtilajModelID == problemaModel.UtilajModelID);
+                await _emailSender.SendEmailAsync(mailModel.FromAdress, mailModel.ToAddress, mailModel.Subjsect, problemaModel.LastPersonUpdateRow + mailModel.Messaege + problemaModel.ProblemaDescriere + $" la utilajul: {utilajName.Utilaj}");
                 
                 return RedirectToAction(nameof(Index));
             }
