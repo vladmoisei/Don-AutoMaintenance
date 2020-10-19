@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewData["Title"] = "Instructiuni";
+}
+
+<h1>Instructiuni</h1>
+
+<h3>Generale</h3>
+
+<p>Pentru a putea vizualiza sau crea sesizari referitoare la probleme utilaje, trebuie sa te log-ezi, prin apasarea butonului
+    "Log In". La UserName pui adresa de mail si parola primite ca date de conectare. Dupa Login vei fi redirectionat spre
+    pagina Index a sesizarilor(problemelor). <br />
+    Daca ai unul din roluri: 
+    <ul>
+        <li>Ajustaj</li>
+        <li>Birou Tehnic</li>
+        <li>Admin</li>
+    </ul>
+    poti crea sesizari prin apasarea butonului "Create New".
+    <br />
+    Pentru a <strong>crea o sesizare</strong> este nevoie sa selectezi utilajul respectiv si sa descrii problema.
+    In acest fel la crearea sesizarii, persoanele reponsabile de la mentenanta/ birou tehnic, vor primi un mail
+    cu sesizarea nou creata.
+    </p>
+<p>
+    Daca esti in rolul de <strong>mentenanta</strong> poti raspunde la sesizare, putand lasa un comentariu, desemna un 
+    responsabil, setand starea sesizarii (Nerezeolvat/ In Lucru/ Rezolvat) si punand un termen de finalizare.
+</p>
+<h3>Vizualizare Date Sesizari</h3>
+<p>Cand deschizi pagina "Index" de la "Sesizari", sunt afisate implicit datele introduse in urma cu o luna de la data curenta.
+    <br /> De asemenea se poate selecta perioada de vizualizare a datelor prin: 
+    <ul>
+        <li>selecteaza data de inceput prin selectie Data From</li>
+        <li>selecteaza data sfarsit prin selectie Data To</li>
+        <li>click buton afiseaza</li>
+    </ul>
+    <br />
+    Pentru a vizualiza cele mai recente date intruduse, acestea sunt afisate in ordine descrescatoare, 
+    adica ultimul introdus, primul afisat.
+<br />
+    Afisare date in functie de stare Nerezolvat/ Rezolvat/ In Lucru:
+    <ul>
+        <li>Stare<span style="background-color:red;"> Nerezolvat</span>: campul are culoarea rosie </li>
+        <li>Stare<span style="background-color:lawngreen;"> Rezolvat</span>: campul are culoare verde</li>
+        <li>Stare InLucru: nu seschimba culoarea campului</li>
+    </ul>
+</p>
+<h4>Sortare Date</h4>
+<p>
+    Puteti sorta datele afisate crescator / descrescator pe coloana prin apasarea unui click pe denumirile din cap tabel. 
+    De asemenea dupa realizarea sortarii va fi afisata o sageata langa campul din cap tabel dupa care s-a realizat sortarea.
+</p>
+<h4>Cautare date</h4>
+<p>
+    In casuta de cautare din dreapta sus a tabelului de date, se poate introduce cuvantul dupa care se doreste cautarea. Dupa 
+    introducerea cuvantului se apasa butonul enter. Pentru a afisa dinnou toate date se goleste casuta de cautare si se 
+    apasa butonul Enter.
+</p>
+<h4>Exportare date in Excel</h4>
+<p>
+    Pentru exportarea datelor in fisier excel se apasa butonul <strong>Excel Export</strong> din stanga sus a tabelului de date.
+</p>

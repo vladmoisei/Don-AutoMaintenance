@@ -33,7 +33,7 @@
                           >Completeaza Mentenanta</textarea>
                 <span asp-validation-for="ComentariuMentenanta" class="text-danger"></span>
             </div>
-            @if (!User.IsInRole("BirouTehnic"))
+            @if (!User.Identity.IsAuthenticated)
             {
                 <div class="form-group">
                     <label asp-for="Stare" class="control-label"></label>

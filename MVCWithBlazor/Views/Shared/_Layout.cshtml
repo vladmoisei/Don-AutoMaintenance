@@ -32,7 +32,10 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Problema" asp-action="Index">Probleme</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Instructiuni">Instructiuni</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Problema" asp-action="Index">Sesizari</a>
                         </li>
                         @if (User.IsInRole("Admin"))
                         {
@@ -47,11 +50,11 @@
                             </li>
                         }
                         @*<li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                </li>*@
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </li>*@
                         @*<li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Test" asp-action="Index">Test</a>
-                </li>*@
+            <a class="nav-link text-dark" asp-area="" asp-controller="Test" asp-action="Index">Test</a>
+        </li>*@
                         <partial name="_Identity" />
                     </ul>
                 </div>

@@ -31,6 +31,11 @@ namespace MVCWithBlazor.Controllers
             return View();
         }
 
+        public IActionResult Instructiuni()
+        {
+            return View();
+        }
+
         [Authorize(Roles = "Member, Admin")]
         [Authorize(Policy = "Dep")]
         public IActionResult Member()
