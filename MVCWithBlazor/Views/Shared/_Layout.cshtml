@@ -49,6 +49,11 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Problema" asp-action="MailService">Mail Serviciu</a>
                             </li>
                         }
+                        @if (User.Identity.IsAuthenticated) {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Identity" asp-action="ChangePassword">Change Password</a>
+                        </li>
+                        }
                         @*<li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </li>*@

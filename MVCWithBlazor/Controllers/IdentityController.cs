@@ -132,5 +132,39 @@ namespace MVCWithBlazor.Controllers
             await _signinManager.SignOutAsync();
             return RedirectToAction("Signin");
         }
+
+        //
+        // GET: /Manage/ChangePassword
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Manage/ChangePassword
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+            var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+            if (result.Succeeded)
+            {
+                if (user != null)
+                {
+                    await _signinManager.SignInAsync(user, isPersistent: true);
+                }
+                ModelState.AddModelError("ChangePassword", "S-a realizat schimbarea parolei cu succes!");
+                //return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+                return View(model);
+            }
+            ModelState.AddModelError("ChangePassword", "A aparut o eroare in schimbarea parolei!" +
+                string.Join("", result.Errors.Select(x => x.Description)));
+            return View(model);
+        }
     }
 }
