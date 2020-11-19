@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -34,7 +35,16 @@ namespace MVCWithBlazor.Controllers
             ViewBag.fromDate = DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd");
             ViewBag.toDate = DateTime.Now.ToString("yyyy-MM-dd");
             var reportDbContext = _context.ProblemaModels.Include(p => p.ResponsabilModel).Include(p => p.UtilajModel).OrderByDescending(data => data.DataIntroducere).Where(d => d.DataIntroducere.CompareTo(DateTime.Now.AddMonths(-1)) >= 0 && d.DataIntroducere.CompareTo(DateTime.Now) <= 0);
-
+            // Return View for operators
+            foreach (var utilaj in _context.UtilajModels)
+            {
+                if (User.IsInRole("Member") && User.HasClaim("Department", utilaj.UtilajModelID.ToString()))
+                {
+                    ViewBag.dataSource = await reportDbContext.Where(item => item.UtilajModelID == utilaj.UtilajModelID).ToListAsync();
+                    return View(await reportDbContext.ToListAsync());
+                }
+            }
+            // Return view for everybody
             ViewBag.dataSource = await reportDbContext.ToListAsync();
             return View(await reportDbContext.ToListAsync());
         }
@@ -46,7 +56,16 @@ namespace MVCWithBlazor.Controllers
             ViewBag.fromDate = fromDate.ToString("yyyy-MM-dd");
             ViewBag.toDate = toDate.ToString("yyyy-MM-dd");
             var reportDbContext = _context.ProblemaModels.Include(p => p.ResponsabilModel).Include(p => p.UtilajModel).OrderByDescending(data => data.DataIntroducere).Where(d => d.DataIntroducere.CompareTo(fromDate) >= 0 && d.DataIntroducere.CompareTo(toDate) <= 0);
-
+            // Return View per operators
+            foreach (var utilaj in _context.UtilajModels)
+            {
+                if (User.IsInRole("Member") && User.HasClaim("Department", utilaj.UtilajModelID.ToString()))
+                {
+                    ViewBag.dataSource = await reportDbContext.Where(item => item.UtilajModelID == utilaj.UtilajModelID).ToListAsync();
+                    return View(await reportDbContext.ToListAsync());
+                }
+            }
+            // return view for everybody
             ViewBag.dataSource = await reportDbContext.ToListAsync();
             return View(await reportDbContext.ToListAsync());
         }
@@ -91,6 +110,14 @@ namespace MVCWithBlazor.Controllers
         public IActionResult Create()
         {
             ViewData["ResponsabilModelID"] = new SelectList(_context.ResponsabilModel, "ResponsabilModelID", "Email");
+            foreach (var utilaj in _context.UtilajModels)
+            {
+                if (User.IsInRole("Member") && User.HasClaim("Department", utilaj.UtilajModelID.ToString()))
+                {
+                    ViewData["UtilajModelID"] = new SelectList(_context.UtilajModels.Where(t => t.UtilajModelID == utilaj.UtilajModelID).ToList(), "UtilajModelID", "Utilaj", utilaj.UtilajModelID);
+                    return View();
+                }
+            }
             ViewData["UtilajModelID"] = new SelectList(_context.UtilajModels, "UtilajModelID", "Utilaj");
             return View();
         }
@@ -114,7 +141,7 @@ namespace MVCWithBlazor.Controllers
                 MailModel mailModel = _emailSender.GetMailModelAsync(filePathMailModel).Result;
                 UtilajModel utilajName = _context.UtilajModels.FirstOrDefault(utilaj => utilaj.UtilajModelID == problemaModel.UtilajModelID);
                 await _emailSender.SendEmailAsync(mailModel.FromAdress, mailModel.ToAddress, mailModel.Subjsect, problemaModel.LastPersonUpdateRow + mailModel.Messaege + problemaModel.ProblemaDescriere + $" la utilajul: {utilajName.Utilaj}");
-                
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ResponsabilModelID"] = new SelectList(_context.ResponsabilModel, "ResponsabilModelID", "Email", problemaModel.ResponsabilModelID);

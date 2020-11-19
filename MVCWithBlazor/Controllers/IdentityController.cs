@@ -5,6 +5,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using MVCWithBlazor.Data;
 using MVCWithBlazor.Models;
 using MVCWithBlazor.Services;
 
@@ -16,17 +18,20 @@ namespace MVCWithBlazor.Controllers
         private readonly SignInManager<IdentityUser> _signinManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailSender _emailSender;
+        private readonly ReportDbContext _context;
 
-        public IdentityController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signinManager, RoleManager<IdentityRole> roleManager, IEmailSender emailSender)
+        public IdentityController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signinManager, RoleManager<IdentityRole> roleManager, IEmailSender emailSender, ReportDbContext context)
         {
             _userManager = userManager;
             _signinManager = signinManager;
             _roleManager = roleManager;
             _emailSender = emailSender;
+            _context = context;
         }
         public async Task<IActionResult> SignUp()
         {
             var model = new SignupViewModel() { Role="Member"};
+            ViewData["UtilajModelID"] = new SelectList(_context.UtilajModels, "UtilajModelID", "Utilaj");
             return View(model);
         }
 
@@ -44,6 +49,7 @@ namespace MVCWithBlazor.Controllers
                     {
                         var errors = roleResult.Errors.Select(s => s.Description);
                         ModelState.AddModelError("Role", string.Join(",", errors));
+                        ViewData["UtilajModelID"] = new SelectList(_context.UtilajModels, "UtilajModelID", "Utilaj", model.Department);
                         return View(model);
                     }
                 }

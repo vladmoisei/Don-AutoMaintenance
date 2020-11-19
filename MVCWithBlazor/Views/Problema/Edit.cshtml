@@ -4,6 +4,7 @@
     ViewData["Title"] = "Edit";
     string nuArataTehnic = "";
     string nuArataMentenanta = "";
+    string nuArataAjustaj = "";
 }
 @if (User.IsInRole("BirouTehnic"))
 {
@@ -12,7 +13,10 @@
 {
     nuArataMentenanta = "d-none";
 }
-
+else if (User.IsInRole("Member") || User.IsInRole("Ajustaj"))
+{
+    nuArataAjustaj = "d-none";
+}
 <h1>Edit</h1>
 
 <h4>ProblemaModel</h4>
@@ -27,7 +31,7 @@
                 <input asp-for="DataIntroducere" class="form-control"/>
                 <span asp-validation-for="DataIntroducere" class="text-danger"></span>
             </div>
-            <div class="form-group @nuArataMentenanta">
+            <div class="form-group @nuArataMentenanta @nuArataAjustaj">
                 <label asp-for="UtilajModelID" class="control-label"></label>
                 <select asp-for="UtilajModelID" class="form-control" asp-items="ViewBag.UtilajModelID"></select>
                 <span asp-validation-for="UtilajModelID" class="text-danger"></span>
@@ -38,29 +42,29 @@
                 <span asp-validation-for="ProblemaDescriere" class="text-danger"></span>
             </div>
 
-            <div class="form-group @nuArataTehnic">
+            <div class="form-group @nuArataTehnic @nuArataAjustaj">
                 <label asp-for="ComentariuMentenanta" class="control-label"></label>
                 <textarea rows="3" asp-for="ComentariuMentenanta" class="form-control"></textarea>
                 <span asp-validation-for="ComentariuMentenanta" class="text-danger"></span>
             </div>
-            <div class="form-group @nuArataTehnic">
+            <div class="form-group @nuArataTehnic @nuArataMentenanta">
                 <label asp-for="Stare" class="control-label"></label>
                 @*<input asp-for="Stare" class="form-control"/>*@
                 <select asp-for="Stare" class="form-control" asp-items="Html.GetEnumSelectList<MVCWithBlazor.Data.Status>()"></select>
                 <span asp-validation-for="Stare" class="text-danger"></span>
             </div>
-            <div class="form-group @nuArataTehnic">
+            <div class="form-group @nuArataTehnic @nuArataAjustaj">
                 <label asp-for="ResponsabilModelID" class="control-label"></label>
                 <select asp-for="ResponsabilModelID" class="form-control" asp-items="ViewBag.ResponsabilModelID"></select>
                 <span asp-validation-for="ResponsabilModelID" class="text-danger"></span>
             </div>
-            <div class="form-group @nuArataTehnic">
+            <div class="form-group @nuArataTehnic @nuArataAjustaj">
                 <label asp-for="TermenFinalizare" class="control-label"></label>
                 <input asp-for="TermenFinalizare" class="form-control" />
                 <span asp-validation-for="TermenFinalizare" class="text-danger"></span>
             </div>
 
-            <div class="form-group @nuArataTehnic @nuArataMentenanta">
+            <div class="form-group @nuArataTehnic @nuArataMentenanta @nuArataAjustaj">
                 <label asp-for="LastPersonUpdateRow" class="control-label"></label>
                 <input asp-for="LastPersonUpdateRow" class="form-control" value="@User.Identity.Name"/>
                 <span asp-validation-for="LastPersonUpdateRow" class="text-danger"></span>
