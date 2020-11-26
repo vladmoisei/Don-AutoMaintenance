@@ -131,7 +131,7 @@ namespace MVCWithBlazor.Controllers
         {
             if (ModelState.IsValid)
             {
-                problemaModel.ComentariuMentenanta = "";
+                problemaModel.ComentariuMentenanta = "-";
                 problemaModel.Stare = Status.Nerezolvat;
                 _context.Add(problemaModel);
                 await _context.SaveChangesAsync();
