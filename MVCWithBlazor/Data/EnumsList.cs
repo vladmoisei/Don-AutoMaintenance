@@ -44,4 +44,14 @@ namespace MVCWithBlazor.Data
         [EnumMember(Value = "Mediu")]
         Mediu
     }
+
+    public enum TipActiune
+    {
+        Zilnic,
+        Saptamanal,
+        Lunar,
+        Trimestrial,
+        Semestrial,
+        Anual
+    }
 }
