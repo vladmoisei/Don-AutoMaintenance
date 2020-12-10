@@ -183,6 +183,10 @@ namespace MVCWithBlazor.Controllers
             {
                 try
                 {
+                    // Daca completeaza user Mentenanta se pune automat in lucru
+                    if (User.IsInRole("Mentenanta") && problemaModel.Stare != Status.Rezolvat) 
+                        problemaModel.Stare = Status.InLucru;
+                    // Se actualizeaza date server
                     _context.Update(problemaModel);
                     await _context.SaveChangesAsync();
                 }

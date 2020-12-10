@@ -16,8 +16,7 @@ namespace MVCWithBlazor.Models
         public string Descriere { get; set; }
         public bool IsUseInputText{ get; set; }
 
-        [Required(ErrorMessage = "Desrierea este obligatorie! ")]
-        [StringLength(250, ErrorMessage = "Descrierea nu poate depasi 250 caractere. ")]
+        [StringLength(250, ErrorMessage = "Textul nu poate depasi 250 caractere. ")]
         public string? InputText { get; set; }
     }
 }
