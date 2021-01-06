@@ -109,15 +109,6 @@ namespace MVCWithBlazor.Controllers
         // GET: Problema/Create
         public IActionResult Create()
         {
-            ViewData["ResponsabilModelID"] = new SelectList(_context.ResponsabilModel, "ResponsabilModelID", "Email");
-            foreach (var utilaj in _context.UtilajModels)
-            {
-                if (User.IsInRole("Member") && User.HasClaim("Department", utilaj.UtilajModelID.ToString()))
-                {
-                    ViewData["UtilajModelID"] = new SelectList(_context.UtilajModels.Where(t => t.UtilajModelID == utilaj.UtilajModelID).ToList(), "UtilajModelID", "Utilaj", utilaj.UtilajModelID);
-                    return View();
-                }
-            }
             ViewData["UtilajModelID"] = new SelectList(_context.UtilajModels, "UtilajModelID", "Utilaj");
             return View();
         }

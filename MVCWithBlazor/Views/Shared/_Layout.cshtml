@@ -46,19 +46,20 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Utilaj" asp-action="Index">Utilaje</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Actiune" asp-action="Index">Actiuni Automentenanta</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Problema" asp-action="MailService">Mail Serviciu</a>
                             </li>
                         }
-                        @if (User.Identity.IsAuthenticated) {
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Identity" asp-action="ChangePassword">Change Password</a>
-                        </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Identity" asp-action="ChangePassword">Change Password</a>
+                            </li>
                         }
                         @*<li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </li>*@
-                        @*<li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Test" asp-action="Index">Test</a>
         </li>*@
                         <partial name="_Identity" />
                     </ul>
@@ -66,7 +67,7 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div id="container" class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

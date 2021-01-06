@@ -52,6 +52,7 @@ namespace MVCWithBlazor.Data
         Lunar,
         Trimestrial,
         Semestrial,
-        Anual
+        Anual,
+        Toate
     }
 }

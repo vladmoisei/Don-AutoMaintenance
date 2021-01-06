@@ -1,0 +1,73 @@
+﻿@model IEnumerable<MVCWithBlazor.Models.ActiuneModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+<form asp-action="Index">
+    <div class="row">
+        <div class="col-md-4">
+            <label for="idUtilaj" class="control-label"></label>
+            <select id="idUtilaj" name="idUtilaj" class="form-control" asp-items="ViewBag.UtilajModelID">
+                @*@foreach (var item in ViewBag.UtilajModelID)
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }*@
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="tipActiune" class="control-label"></label>
+            <select id="tipActiune" name="tipActiune" class="form-control" asp-items="Html.GetEnumSelectList<MVCWithBlazor.Data.TipActiune>()"></select>
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-primary" type="submit">Afiseaza</button>
+        </div>
+    </div>
+</form>
+<br />
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Descriere)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tip)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsUseInputText)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UtilajModel)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descriere)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsUseInputText)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UtilajModel.Utilaj)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ActiuneModelID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ActiuneModelID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ActiuneModelID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

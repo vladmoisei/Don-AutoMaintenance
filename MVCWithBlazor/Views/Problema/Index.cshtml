@@ -7,7 +7,7 @@
 
 <h1>Index</h1>
 @if (User.IsInRole("BirouTehnic") || User.IsInRole("Ajustaj") || User.IsInRole("Admin") || User.IsInRole("Laminor")
-    || User.IsInRole("Member"))
+   || User.IsInRole("Member"))
 {
     <p>
         <a asp-action="Create">Create New</a>
@@ -35,7 +35,7 @@
     <ejs-grid id="Grid" dataSource="ViewBag.dataSource" allowTextWrap="true" queryCellInfo="customiseCell" allowSorting="true" allowPaging="true" allowExcelExport="true" toolbarClick="toolbarClick" toolbar="@(new List<string>() { "Search" , "ExcelExport"})">
         <e-grid-pagesettings pageCount="5"></e-grid-pagesettings>
         <e-grid-columns>
-            <e-grid-column field="DataIntroducere" headerText="Data Introducere" format="dd.MM.yyyy" width="120"></e-grid-column>
+            <e-grid-column field="DataIntroducere" headerText="Data Introducere" format="dd.MM.yyyy hh:mm" width="160"></e-grid-column>
             <e-grid-column field="UtilajModel.Utilaj" headerText="Utilaj" width="120"></e-grid-column>
             <e-grid-column field="ProblemaDescriere" headerText="Descriere Problema" width="180"></e-grid-column>
             <e-grid-column field="ComentariuMentenanta" headerText="Comentariu Mentenanta" width="180"></e-grid-column>
@@ -45,7 +45,7 @@
             <e-grid-column field="LastPersonUpdateRow" headerText="Pers Update" width="160"></e-grid-column>
 
             <e-grid-column template="<a href='/Problema/Edit/${ProblemaModelID}'>Edit</a> |
-                    @if (User.IsInRole("Admin")) { <a href='/Problema/Details/${ProblemaModelID}'>Details</a> 
+                    @if (User.IsInRole("Admin")) { <a href='/Problema/Details/${ProblemaModelID}'>Details</a>
                     <a href = '/Problema/Delete/${ProblemaModelID}' > Delete </a>} " headerText="Editare" width="150"></e-grid-column>
         </e-grid-columns>
     </ejs-grid>
@@ -53,6 +53,7 @@
 @*Change color for each cell by StareAbonament Status*@
 @section Scripts{
     <script type="text/javascript">
+
         function customiseCell(args) {
             if (args.column.field === 'Stare') {
                 if (args.data['Stare'] === '@MVCWithBlazor.Data.Status.Nerezolvat') {
@@ -70,6 +71,11 @@
                 gridObj.excelExport();
             }
         }
+
+        // Add Class Container Fluid To Index page (to see more PLCs on the same page)
+        var container = document.getElementById("container");
+        container.classList.remove("container");
+        container.classList.add("container-fluid");
     </script>
 }
 

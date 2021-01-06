@@ -14,10 +14,10 @@ namespace MVCWithBlazor.Data
             : base(options)
         { }
 
-        public DbSet<PlcModel> Plcs { get; set; }
-        public DbSet<TagModel> Tags { get; set; }
         public DbSet<UtilajModel> UtilajModels { get; set; }
         public DbSet<ProblemaModel> ProblemaModels { get; set; }
-        public DbSet<MVCWithBlazor.Models.ResponsabilModel> ResponsabilModel { get; set; }
+        public DbSet<ResponsabilModel> ResponsabilModel { get; set; }
+
+        public DbSet<ActiuneModel> ActiuneModels { get; set; }
     }
 }
