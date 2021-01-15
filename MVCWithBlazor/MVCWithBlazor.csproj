@@ -6,7 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Components\" />
+    <Compile Remove="Migrations\20210113112000_AddCheckModel.cs" />
+    <Compile Remove="Migrations\20210113112000_AddCheckModel.Designer.cs" />
+    <Compile Remove="Migrations\20210113112543_AddCheckModel.cs" />
+    <Compile Remove="Migrations\20210113112543_AddCheckModel.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\lib\datatable\" />
   </ItemGroup>
 

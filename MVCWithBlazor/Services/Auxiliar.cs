@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using MVCWithBlazor.Data;
 using MVCWithBlazor.Models;
 using OfficeOpenXml;
 using System;
@@ -12,7 +13,12 @@ namespace MVCWithBlazor.Services
 {
     public class Auxiliar
     {
+        private readonly ReportDbContext context;
 
+        public Auxiliar(ReportDbContext context)
+        {
+            this.context = context;
+        }
         // Functie reutrn clock de pe server in view
         public string GetClock()
         {

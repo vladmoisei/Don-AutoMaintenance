@@ -4,16 +4,22 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">AutoMentenanta Reports </h1>
-    <div class="alert ">
-        <a class="btn btn-info" asp-controller="Problema" asp-action="Index">Sesizari</a>
+    <h1 class="display-4">Auto Mentenanta Reports and Problems</h1>
+    <div class="btn-group">
+        <div class="alert ">
+            <a class="btn btn-info" asp-controller="Problema" asp-action="Index">Sesizari</a>
+        </div>
+        <div class="alert ">
+            <a class="btn btn-info" asp-controller="Checks" asp-action="Index">Auto Mentenanta</a>
+        </div>
     </div>
+    
     @*<div class="alert">
-        <a class="btn btn-info" asp-action="admin">Automentenanta</a>
-    </div>
-    <div class="alert">
-        <a class="btn btn-info" asp-action="admin">Mentenanta Preventiva</a>
-    </div>*@
+            <a class="btn btn-info" asp-action="admin">Automentenanta</a>
+        </div>
+        <div class="alert">
+            <a class="btn btn-info" asp-action="admin">Mentenanta Preventiva</a>
+        </div>*@
 
     @*<component type="typeof(ComponentProba)" render-mode="ServerPrerendered" />*@
 </div>

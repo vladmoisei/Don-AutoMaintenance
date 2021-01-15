@@ -55,4 +55,11 @@ namespace MVCWithBlazor.Data
         Anual,
         Toate
     }
+
+    public enum TipZi
+    {
+        W,
+        Li,
+        Co
+    }
 }

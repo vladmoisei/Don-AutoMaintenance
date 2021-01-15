@@ -13,11 +13,11 @@ namespace MVCWithBlazor.Data
         public ReportDbContext(DbContextOptions<ReportDbContext> options)
             : base(options)
         { }
-
         public DbSet<UtilajModel> UtilajModels { get; set; }
         public DbSet<ProblemaModel> ProblemaModels { get; set; }
         public DbSet<ResponsabilModel> ResponsabilModel { get; set; }
 
         public DbSet<ActiuneModel> ActiuneModels { get; set; }
+        public DbSet<ActionCheckModel> CheckModels { get; set; }
     }
 }

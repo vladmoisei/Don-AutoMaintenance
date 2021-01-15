@@ -1,0 +1,66 @@
+﻿@inject IDashboardService DashboardService
+
+<h3>Masuri de intretinere lunare</h3>
+
+<div class="row">
+    <div class="col-lg-3"></div>
+    <div></div>
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th style="min-width:400px">Actiuni de efectuat:</th>
+            <th>@dataSelectata.ToString("dd.MM.yyyy")</th>
+        </tr>
+    </thead>
+    @if (ListaActiuniLunare == null)
+    {
+        <em>Loading...</em>
+    }
+    else
+    {
+        <tbody>
+            @foreach (var actiune in ListaActiuniLunare)
+            {
+                <tr>
+                    <td>
+                        @actiune.Descriere
+                    </td>
+                    @foreach (var check in ListaVerificariLunare.Where(obj => obj.ActiuneModelID == actiune.ActiuneModelID).ToList())
+                    {
+
+                        <td>
+                            <label>@check.DataLucru.ToString("dd.MM.yyyy")</label>
+                            <input type="checkbox" />
+                            <label>@check.ActiuneModel.Descriere</label>
+                        </td>
+
+                    }
+                </tr>
+            }
+
+        </tbody>
+    }
+</table>
+
+
+@code {
+    [Parameter]
+    public DateTime dataSelectata { get; set; }
+
+    [Parameter]
+    public int utilajSelectatId { get; set; }
+
+    [Parameter]
+    public List<ActionCheckModel> ListaVerificariLunare { get; set; }
+
+    [Parameter]
+    public List<ActiuneModel> ListaActiuniLunare { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        //ListaActiuni = await DashboardService.GetActiuniByTipAndByUtilaj(TipActiune.Saptamanal, utilajSelectatId);
+        //ListaChecks = await DashboardService.GetWeeklyActions(utilajSelectatId, dataSelectata);
+    }
+}

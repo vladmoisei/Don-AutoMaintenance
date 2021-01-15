@@ -1,0 +1,148 @@
+﻿@inject IDashboardService DashboardService
+@using System;
+@*@inject Auxiliar auxiliar*@
+<div class="container-fluid">
+    <h1> Automentenanta </h1>
+    <div class="row">
+        <div class="col-lg-4">
+            <label class="font-weight-bold">Utilaj: </label>
+
+            @if (ListaUtilaje == null)
+            {
+                <em>Loading...</em>
+            }
+            else
+            {
+                <select class="form-control" @onchange="@handleChangeUtilajEvent">
+                    <option>Selecteaza un utilaj</option>
+
+                    @foreach (var cnt in ListaUtilaje)
+                    {
+                        <option value="@cnt.UtilajModelID">@cnt.Utilaj</option>
+                    }
+
+                </select>
+            }
+        </div>
+        <div class="col-lg-4">
+            <label class="font-weight-bold">Data: </label>
+            @*@bind="dataSelectata"*@
+            <input class="form-control" type="month" id="start" name="start" min="2019-12" @bind="@dataSelectata" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            Utilaj Selectat Id: @utilajSelectatId
+        </div>
+        <div class="col-lg-4">
+            Data selectata: @dataSelectata.ToString("yyyy-MMM")
+        </div>
+    </div>
+
+    @if (isUtilajSelectat)
+    {
+        <DailyActionChecks dataSelectata="@dataSelectata"
+                           utilajSelectatId="@utilajSelectatId"
+                           ListaActiuniZilnice="@ListaActiuniZilnice"
+                           ListaVerificariZilnice="@ListaVerificariZilnice" />
+
+        <WeeklyActionChecks dataSelectata="@dataSelectata"
+                            utilajSelectatId="@utilajSelectatId"
+                            ListaActiuniSaptamanale="@ListaActiuniSaptamanale"
+                            ListaVerificariSaptamanale="@ListaVerificariSaptamanale" />
+
+        <MonthlyActionChecks dataSelectata="@dataSelectata"
+                             utilajSelectatId="@utilajSelectatId"
+                             ListaActiuniLunare="@ListaActiuniLunare"
+                             ListaVerificariLunare="@ListaVerificariLunare" />
+        @if (ListaVerificaiTrimestriale.Count > 0)
+        {
+            <TrimestrialActionChecks dataSelectata="@dataSelectata"
+                                     utilajSelectatId="@utilajSelectatId"
+                                     ListaActiuniTrimestriale="@ListaActiuniTrimestriale"
+                                     ListaVerificaiTrimestriale="@ListaVerificaiTrimestriale" />
+        }
+
+        @if (ListaVerificariSemestriale.Count > 0)
+        {
+            <SemestrialActionChecks dataSelectata="@dataSelectata"
+                                    utilajSelectatId="@utilajSelectatId"
+                                    ListaActiuniSemestriale="@ListaActiuniSemestriale"
+                                    ListaVerificariSemestriale="@ListaVerificariSemestriale" />
+        }
+    }
+
+
+    @*TO DO Component Afisare Actiunie zilnice
+        TO DO Component Actiuni SAPTAMAnale
+        TO DO .. lunare
+        TO DO .. trimistriale
+        TO DO ... semestriale
+        TO DO ... anuale*@
+    <div class="row">
+        <label>Creare Verificari Actiuni pentru: </label>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-outline-dark" @onclick="@handleCreateMonthChecksEvent">Lunar(toate utilajele)</button>
+            <button type="button" class="btn btn-outline-dark">Trimestriale</button>
+            <button type="button" class="btn btn-outline-dark">Semestriale</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    int utilajSelectatId;
+    bool isUtilajSelectat;
+    DateTime dataSelectata;
+    
+    List<UtilajModel> ListaUtilaje { get; set; }
+    List<ActiuneModel> ListaActiuniZilnice { get; set; }
+    List<ActiuneModel> ListaActiuniSaptamanale { get; set; }
+    List<ActiuneModel> ListaActiuniLunare { get; set; }
+    List<ActiuneModel> ListaActiuniTrimestriale { get; set; }
+    List<ActiuneModel> ListaActiuniSemestriale { get; set; }
+
+    List<ActionCheckModel> ListaVerificariZilnice { get; set; }
+    List<ActionCheckModel> ListaVerificariSaptamanale { get; set; }
+    List<ActionCheckModel> ListaVerificariLunare { get; set; }
+    List<ActionCheckModel> ListaVerificaiTrimestriale { get; set; }
+    List<ActionCheckModel> ListaVerificariSemestriale { get; set; }
+
+    public async void handleChangeUtilajEvent(ChangeEventArgs e)
+    {
+        try
+        {
+            utilajSelectatId = Convert.ToInt32(e.Value.ToString());
+        }
+        catch (FormatException ex)
+        {
+            return;
+        }
+
+        ListaActiuniZilnice = await DashboardService.GetActiuniByTipAndByUtilaj(TipActiune.Zilnic, utilajSelectatId);
+        ListaActiuniSaptamanale = await DashboardService.GetActiuniByTipAndByUtilaj(TipActiune.Saptamanal, utilajSelectatId);
+        ListaActiuniLunare = await DashboardService.GetActiuniByTipAndByUtilaj(TipActiune.Lunar, utilajSelectatId);
+        ListaActiuniTrimestriale = await DashboardService.GetActiuniByTipAndByUtilaj(TipActiune.Trimestrial, utilajSelectatId);
+        ListaActiuniSemestriale = await DashboardService.GetActiuniByTipAndByUtilaj(TipActiune.Semestrial, utilajSelectatId);
+
+        ListaVerificariZilnice = await DashboardService.GetDailyChecks(utilajSelectatId, dataSelectata);
+        ListaVerificariSaptamanale = await DashboardService.GetWeeklyChecks(utilajSelectatId, dataSelectata);
+        ListaVerificariLunare = await DashboardService.GetMonthlyChecks(utilajSelectatId, dataSelectata);
+        ListaVerificaiTrimestriale = await DashboardService.GetTrimestrialChecks(utilajSelectatId, dataSelectata);
+        ListaVerificariSemestriale = await DashboardService.GetSemestrialChecks(utilajSelectatId, dataSelectata);
+
+        isUtilajSelectat = true;
+        StateHasChanged();
+
+    }
+
+    public async void handleCreateMonthChecksEvent()
+    {
+        await DashboardService.CreateChecksPerMonth(dataSelectata);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        ListaUtilaje = await DashboardService.GetListOfUtilaj();
+        dataSelectata = DateTime.Now;
+    }
+}

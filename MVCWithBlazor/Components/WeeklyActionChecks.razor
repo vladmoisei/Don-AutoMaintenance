@@ -1,0 +1,75 @@
+﻿@inject IDashboardService DashboardService
+
+<h3>Masuri de intretinere saptamanale</h3>
+
+<div class="row">
+    <div class="col-lg-3"></div>
+    <div></div>
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th style="min-width:400px">Actiuni de efectuat:</th>
+            @for (int i = 0; i < DateTime.DaysInMonth(dataSelectata.Year, dataSelectata.Month); i++)
+            {
+                DateTime day = new DateTime(dataSelectata.Year, dataSelectata.Month, i + 1);
+                // Add only on monday weekly actions
+                if (day.DayOfWeek == DayOfWeek.Monday)
+                {
+                    <th>@day.ToString("dd.MM.yyyy")</th>
+                }
+            }
+        </tr>
+    </thead>
+    @if (ListaActiuniSaptamanale == null)
+    {
+        <em>Loading...</em>
+    }
+    else
+    {
+        <tbody>
+            @foreach (var actiune in ListaActiuniSaptamanale)
+            {
+                <tr>
+                    <td>
+                        @actiune.Descriere
+                    </td>
+                    @foreach (var check in ListaVerificariSaptamanale.Where(obj => obj.ActiuneModelID == actiune.ActiuneModelID).
+                        OrderBy(p => p.DataLucru).ToList())
+                    {
+
+                                <td>
+                                    <label>@check.DataLucru.ToString("dd.MM.yyyy")</label>
+                                    <input type="checkbox" />
+                                    <label>@check.ActiuneModel.Descriere</label>
+                                </td>
+
+                    }
+                </tr>
+            }
+
+        </tbody>
+    }
+</table>
+
+
+@code {
+    [Parameter]
+    public DateTime dataSelectata { get; set; }
+
+    [Parameter]
+    public int utilajSelectatId { get; set; }
+
+    [Parameter]
+    public List<ActionCheckModel> ListaVerificariSaptamanale { get; set; }
+
+    [Parameter]
+    public List<ActiuneModel> ListaActiuniSaptamanale { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        //ListaActiuni = await DashboardService.GetActiuniByTipAndByUtilaj(TipActiune.Saptamanal, utilajSelectatId);
+        //ListaChecks = await DashboardService.GetWeeklyActions(utilajSelectatId, dataSelectata);
+    }
+}
