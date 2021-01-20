@@ -37,7 +37,6 @@ namespace MVCWithBlazor.Models
         public bool IsCheckedBySef { get; set; }
 
         [StringLength(100, ErrorMessage = "Textul nu poate depasi 100 caractere. ")]
-
         [Display(Name = "Sef de schimb")]
         public string SefDeSchimb { get; set; }
 

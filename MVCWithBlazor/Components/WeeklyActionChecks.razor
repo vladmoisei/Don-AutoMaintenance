@@ -29,26 +29,58 @@
     else
     {
         <tbody>
+            @*Lista verificari operatori*@
             @foreach (var actiune in ListaActiuniSaptamanale)
             {
                 <tr>
                     <td>
                         @actiune.Descriere
                     </td>
-                    @foreach (var check in ListaVerificariSaptamanale.Where(obj => obj.ActiuneModelID == actiune.ActiuneModelID).
-                        OrderBy(p => p.DataLucru).ToList())
+                    @foreach (var check in ListaVerificariSaptamanale.Where(obj => obj.ActiuneModelID == actiune.ActiuneModelID
+                   && obj.SefDeSchimb == null).
+                      OrderBy(p => p.DataLucru).ToList())
                     {
 
-                                <td>
-                                    <label>@check.DataLucru.ToString("dd.MM.yyyy")</label>
-                                    <input type="checkbox" />
-                                    <label>@check.ActiuneModel.Descriere</label>
-                                </td>
+                        <td>
+                            <label>@check.DataLucru.ToString("dd.MM.yyyy")</label>
+                            <input type="checkbox" />
+                            <label>@check.ActiuneModel.Descriere</label>
+                        </td>
 
                     }
+
                 </tr>
             }
+            @*Lista verificari sef de schimb*@
+            <tr>
+                <td>
+                    <strong>Verificare sef de schimb: </strong>
+                </td>
+                @for (int i = 0; i < DateTime.DaysInMonth(dataSelectata.Year, dataSelectata.Month); i++)
+                {
+                    DateTime day = new DateTime(dataSelectata.Year, dataSelectata.Month, i + 1);
+                    // Add only on monday weekly actions
+                    if (day.DayOfWeek == DayOfWeek.Monday)
+                    {
+                        <td>
+                            <label>@day.ToString("dd.MM.yyyy")</label>
+                            @{var checkSef = ListaVerificariSaptamanale.FirstOrDefault(obj => obj.DataLucru.Year == day.Year
+                              && obj.DataLucru.Month == day.Month && obj.DataLucru.Day == day.Day
+                              && obj.SefDeSchimb != null);
+                            }
+                            @if (checkSef != null)
+                            {
+                            <label>@checkSef.DataLucru.ToString("dd.MM.yyyy")</label>
+                            <input type="checkbox" />
+                            <label>@checkSef.ActiuneModel.Descriere</label>
+                            }
+                        </td>
 
+                    }
+                }
+
+
+            </tr>
         </tbody>
     }
 </table>

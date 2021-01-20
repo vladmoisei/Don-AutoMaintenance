@@ -2,46 +2,74 @@
 
 <table class="table table-bordered">
     <thead>
-        <tr>
-            <th style="min-width:400px">Actiuni de efectuat:</th>
-            @for (int i = 0; i < DateTime.DaysInMonth(dataSelectata.Year, dataSelectata.Month); i++)
-            {
-                DayOfWeek day = new DateTime(dataSelectata.Year, dataSelectata.Month, i + 1).DayOfWeek;
-                <th>
-                    <select class="select_day">
-                        @foreach (var zi in Enum.GetValues(typeof(TipZi)))
-                        {
-                            if (day == DayOfWeek.Saturday || day == DayOfWeek.Sunday)
+        @*<tr>
+                <th style="min-width:400px">Actiuni de efectuat:</th>
+                @for (int i = 0; i < DateTime.DaysInMonth(dataSelectata.Year, dataSelectata.Month); i++)
+                {
+                    DayOfWeek day = new DateTime(dataSelectata.Year, dataSelectata.Month, i + 1).DayOfWeek;
+                    <th>
+                        <select class="select_day">
+                            @foreach (var zi in Enum.GetValues(typeof(TipZi)))
                             {
-                                if ((TipZi)zi == TipZi.Li)
+                                if (day == DayOfWeek.Saturday || day == DayOfWeek.Sunday)
                                 {
-                                    <option value="@zi" selected="selected">@zi</option>
+                                    if ((TipZi)zi == TipZi.Li)
+                                    {
+                                        <option value="@zi" selected="selected">@zi</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@zi">@zi</option>
+                                    }
                                 }
                                 else
                                 {
                                     <option value="@zi">@zi</option>
                                 }
                             }
-                            else
-                            {
-                                <option value="@zi">@zi</option>
-                            }
-                        }
-                    </select>
-                </th>
-            }
-        </tr>
+                        </select>
+                    </th>
+                }
+            </tr>*@
         <tr>
-            <th>
-                1. Masuri de intretinere si verificari zilnice
-            </th>
+            <th style="min-width:400px">Actiuni de efectuat:</th>
             @for (int i = 0; i < DateTime.DaysInMonth(dataSelectata.Year, dataSelectata.Month); i++)
             {
                 DayOfWeek day = new DateTime(dataSelectata.Year, dataSelectata.Month, i + 1).DayOfWeek;
-                <th style=@(day == DayOfWeek.Saturday ? "background-color: yellow": day == DayOfWeek.Sunday ? "background-color: yellow": "background-color: grey") >@(i + 1)</th>
+                <th style=@(day == DayOfWeek.Saturday ? "background-color: yellow": day == DayOfWeek.Sunday ? "background-color: yellow": "background-color: grey")>@(i + 1)</th>
             }
         </tr>
     </thead>
+    @if (ListaActiuniZilnice == null)
+    {
+        <em>Loading...</em>
+    }
+    else
+    {
+        <tbody>
+            @foreach (var actiune in ListaActiuniZilnice)
+            {
+                <tr>
+                    <td>
+                        @actiune.Descriere
+                    </td>
+                    @foreach (var check in ListaVerificariZilnice.Where(obj => obj.ActiuneModelID == actiune.ActiuneModelID 
+                     && obj.SefDeSchimb == null).
+                       OrderBy(p => p.DataLucru).ToList())
+                    {
+
+                        <td>
+                            <label>@check.DataLucru.ToString("dd.MM.yyyy")</label>
+                            <input type="checkbox" />
+                            <label>@check.ActiuneModel.Descriere</label>
+                        </td>
+
+                    }
+                </tr>
+            }
+
+        </tbody>
+    }
 </table>
 
 @code {

@@ -69,7 +69,9 @@ namespace MVCWithBlazor.Services
                     // Add Action Check by sef de schimb
                     _context.Add(new ActionCheckModel
                     {
-                        DataLucru = new DateTime(data.Year, data.Month, i + 1)
+                        ActiuneModelID = actiune.ActiuneModelID,
+                        DataLucru = new DateTime(data.Year, data.Month, i + 1),
+                        SefDeSchimb = "sef"
                     });
                 }
             }
@@ -99,7 +101,9 @@ namespace MVCWithBlazor.Services
                         // Add Action Check by sef de schimb
                         _context.CheckModels.Add(new ActionCheckModel
                         {
-                            DataLucru = new DateTime(data.Year, data.Month, i + 1)
+                            ActiuneModelID = actiune.ActiuneModelID,
+                            DataLucru = new DateTime(data.Year, data.Month, i + 1),
+                            SefDeSchimb = "sef"
                         });
                     }
                 }
@@ -125,7 +129,9 @@ namespace MVCWithBlazor.Services
                 // Add Action Check by sef de schimb
                 _context.Add(new ActionCheckModel
                 {
-                    DataLucru = new DateTime(data.Year, data.Month, 1)
+                    ActiuneModelID = actiune.ActiuneModelID,
+                    DataLucru = new DateTime(data.Year, data.Month, 1),
+                    SefDeSchimb = "sef"
                 });
 
             }
@@ -150,7 +156,9 @@ namespace MVCWithBlazor.Services
                 // Add Action Check by sef de schimb
                 _context.Add(new ActionCheckModel
                 {
-                    DataLucru = new DateTime(data.Year, data.Month, 1)
+                    ActiuneModelID = actiune.ActiuneModelID,
+                    DataLucru = new DateTime(data.Year, data.Month, 1),
+                    SefDeSchimb = "sef"
                 });
 
             }
@@ -175,7 +183,9 @@ namespace MVCWithBlazor.Services
                 // Add Action Check by sef de schimb
                 _context.Add(new ActionCheckModel
                 {
-                    DataLucru = new DateTime(data.Year, data.Month, 1)
+                    ActiuneModelID = actiune.ActiuneModelID,
+                    DataLucru = new DateTime(data.Year, data.Month, 1),
+                    SefDeSchimb = "sef"
                 });
 
             }
@@ -200,7 +210,9 @@ namespace MVCWithBlazor.Services
                 // Add Action Check by sef de schimb
                 _context.Add(new ActionCheckModel
                 {
-                    DataLucru = new DateTime(data.Year, data.Month, 1)
+                    ActiuneModelID = actiune.ActiuneModelID,
+                    DataLucru = new DateTime(data.Year, data.Month, 1),
+                    SefDeSchimb="sef"
                 });
 
             }

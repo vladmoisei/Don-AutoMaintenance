@@ -27,7 +27,8 @@
                     <td>
                         @actiune.Descriere
                     </td>
-                    @foreach (var check in ListaVerificariSemestriale.Where(obj => obj.ActiuneModelID == actiune.ActiuneModelID).ToList())
+                    @foreach (var check in ListaVerificariSemestriale.Where(obj => obj.ActiuneModelID == actiune.ActiuneModelID
+                     && obj.SefDeSchimb == null).ToList())
                     {
 
                         <td>
