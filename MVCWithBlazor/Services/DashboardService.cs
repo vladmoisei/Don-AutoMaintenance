@@ -187,7 +187,6 @@ namespace MVCWithBlazor.Services
                     DataLucru = new DateTime(data.Year, data.Month, 1),
                     SefDeSchimb = "sef"
                 });
-
             }
 
             await _context.SaveChangesAsync();
@@ -214,7 +213,6 @@ namespace MVCWithBlazor.Services
                     DataLucru = new DateTime(data.Year, data.Month, 1),
                     SefDeSchimb="sef"
                 });
-
             }
 
             await _context.SaveChangesAsync();
@@ -307,6 +305,39 @@ namespace MVCWithBlazor.Services
 
             return actiuniSaptamanale;
         }
+
+        // Handle Check Event By operator
+        public async Task HandleCheckByOperator(int checkID, string user)
+        {
+            var check = _context.CheckModels.Include(o => o.ActiuneModel).FirstOrDefault(c =>
+             c.ActionCheckModelID == checkID);
+
+            if (check != null)
+            {
+                check.IsCheckedByOp = !check.IsCheckedByOp;
+                check.DataBifatByOp = DateTime.Now;
+                check.Username = user;
+                _context.Update(check);
+
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        // Handle Check Event by Sef De schimb
+        public async Task HandleCheckBySef(int checkID, string user)
+        {
+            var check = _context.CheckModels.Include(o => o.ActiuneModel).FirstOrDefault(c =>
+             c.ActionCheckModelID == checkID);
+
+            if (check != null)
+            {
+                check.IsCheckedBySef = !check.IsCheckedBySef;
+                check.DataBifatBySef = DateTime.Now;
+                check.SefDeSchimb = user;
+                _context.Update(check);
+
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }
-

@@ -1,36 +1,8 @@
-﻿<h3>Masuri de intretinere si verificare zilnice: @dataSelectata.ToString("dd-MM-yyyy")</h3>
+﻿
+<h3>Masuri de intretinere si verificare zilnice: @dataSelectata.ToString("dd-MM-yyyy")</h3>
 
 <table class="table table-bordered">
     <thead>
-        @*<tr>
-                <th style="min-width:400px">Actiuni de efectuat:</th>
-                @for (int i = 0; i < DateTime.DaysInMonth(dataSelectata.Year, dataSelectata.Month); i++)
-                {
-                    DayOfWeek day = new DateTime(dataSelectata.Year, dataSelectata.Month, i + 1).DayOfWeek;
-                    <th>
-                        <select class="select_day">
-                            @foreach (var zi in Enum.GetValues(typeof(TipZi)))
-                            {
-                                if (day == DayOfWeek.Saturday || day == DayOfWeek.Sunday)
-                                {
-                                    if ((TipZi)zi == TipZi.Li)
-                                    {
-                                        <option value="@zi" selected="selected">@zi</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@zi">@zi</option>
-                                    }
-                                }
-                                else
-                                {
-                                    <option value="@zi">@zi</option>
-                                }
-                            }
-                        </select>
-                    </th>
-                }
-            </tr>*@
         <tr>
             <th style="min-width:400px">Actiuni de efectuat:</th>
             @for (int i = 0; i < DateTime.DaysInMonth(dataSelectata.Year, dataSelectata.Month); i++)
@@ -42,32 +14,49 @@
     </thead>
     @if (ListaActiuniZilnice == null)
     {
-        <em>Loading...</em>
+        <tbody><tr><td><em>Loading...</em></td></tr></tbody>
     }
     else
     {
         <tbody>
+            @*Lista Actiuni de bifat operator*@
             @foreach (var actiune in ListaActiuniZilnice)
             {
                 <tr>
                     <td>
                         @actiune.Descriere
                     </td>
-                    @foreach (var check in ListaVerificariZilnice.Where(obj => obj.ActiuneModelID == actiune.ActiuneModelID 
-                     && obj.SefDeSchimb == null).
-                       OrderBy(p => p.DataLucru).ToList())
+                    @foreach (var check in ListaVerificariZilnice.Where(obj => obj.ActiuneModelID == actiune.ActiuneModelID
+&& obj.SefDeSchimb == null).
+OrderBy(p => p.DataLucru).ToList())
                     {
-
-                        <td>
-                            <label>@check.DataLucru.ToString("dd.MM.yyyy")</label>
-                            <input type="checkbox" />
-                            <label>@check.ActiuneModel.Descriere</label>
-                        </td>
+                        <InputOpDaily check="@check" handleCheckByOperator="@handleCheckByOperator" />
 
                     }
                 </tr>
             }
-
+            @*Lista verificari sef de schimb*@
+            <tr>
+                <td>
+                    <strong>Verificare sef de schimb: </strong>
+                </td>
+                @for (int i = 0; i < DateTime.DaysInMonth(dataSelectata.Year, dataSelectata.Month); i++)
+                {
+                    DateTime day = new DateTime(dataSelectata.Year, dataSelectata.Month, i + 1);
+                    // Add only on monday weekly actions
+            <td>
+                <label>@day.ToString("dd.MM.yyyy")</label>
+                @{var checkSef = ListaVerificariZilnice.FirstOrDefault(obj => obj.DataLucru.Year == day.Year
+                                      && obj.DataLucru.Month == day.Month && obj.DataLucru.Day == day.Day
+                                      && obj.SefDeSchimb != null);
+                }
+                @if (checkSef != null)
+                {
+                    <InputSefDaily check="@checkSef" handleCheckBySef="@handleCheckBySef" />
+                }
+            </td>
+                }
+            </tr>
         </tbody>
     }
 </table>
@@ -81,5 +70,12 @@
     [Parameter]
     public List<ActiuneModel> ListaActiuniZilnice { get; set; }
     [Parameter]
-    public List<ActionCheckModel> ListaVerificariZilnice{ get; set;}
+    public List<ActionCheckModel> ListaVerificariZilnice { get; set; }
+
+    [Parameter]
+    public EventCallback<int> handleCheckByOperator { get; set; }
+
+    [Parameter]
+    public EventCallback<int> handleCheckBySef { get; set; }
+
 }

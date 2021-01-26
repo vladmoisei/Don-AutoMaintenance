@@ -47,7 +47,8 @@ namespace MVCWithBlazor.Services
 
         Task<List<ActionCheckModel>> GetAnualChecks(int utilajSelectatId, DateTime data);
 
-
+        Task HandleCheckByOperator(int checkID, string user);
+        Task HandleCheckBySef(int checkID, string user);
     }
 
 

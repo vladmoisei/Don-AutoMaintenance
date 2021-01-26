@@ -37,6 +37,8 @@ namespace MVCWithBlazor
             // Service for Dashboard Functionality
             services.AddScoped<IDashboardService, DashboardService>();
 
+            services.AddHttpContextAccessor(); // Service to get user in Blazor components               
+
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ReportDbContext>().AddDefaultTokenProviders(); // Add Identity 
             // Set different options for Identity
             services.Configure<IdentityOptions>(options =>

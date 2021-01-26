@@ -1,0 +1,131 @@
+[33mcommit 2c3223432aeefa48b8f74e6f2a8d124a8fdc6ecc[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: vladmoisei <vladmoisei@yahoo.com>
+Date:   Wed Jan 20 15:30:12 2021 +0200
+
+    Add checks view row by operator to weekly view
+
+[33mcommit bd6976a06d5b2b77d406671414828ce8fbc57e54[m
+Author: vladmoisei <vladmoisei@yahoo.com>
+Date:   Fri Jan 15 15:52:19 2021 +0200
+
+    Add Weekly monthly trimestrial semestrial Add and get checks
+
+[33mcommit 01f74e4b980bd0a94304449bf8fb02a08b647c2a[m
+Author: vladmoisei <vladmoisei@yahoo.com>
+Date:   Wed Jan 6 14:26:31 2021 +0200
+
+    Add Action Controller and functions
+
+[33mcommit 9d9bb3197985b4b77fab54bc384892efd1bb9284[m
+Author: vladmoisei <vladmoisei@yahoo.com>
+Date:   Thu Dec 10 14:01:53 2020 +0200
+
+    Add Stare.InLucru when Maintenance comments
+
+[33mcommit 987562a18b8a2d6d844774480b8652556a80cc63[m
+Author: vladmoisei <vladmoisei@yahoo.com>
+Date:   Fri Nov 27 16:35:28 2020 +0200
+
+    Update Enum List for Tip Actiune
+
+[33mcommit 7cba292e3e09989356336ca1a480639e69104991[m
+Author: vladmoisei <vladmoisei@yahoo.com>
+Date:   Thu Nov 26 12:09:52 2020 +0200
+
+    Fix Edit by user functionality
+
+[33mcommit 5e45f85251999d7901009a9cea241687ecf4a7fb[m
+Author: vladmoisei <vladmoisei@yahoo.com>
+Date:   Thu Nov 19 10:25:39 2020 +0200
+
+    Make Create problems for Operator, and edit
+
+[33mcommit a4281231188e0827b54a044da01179664e60eff1[m
+Author: vladmoisei <vladmoisei@yahoo.com>
+Date:   Mon Oct 19 15:24:02 2020 +0300
+
+    add Change Password Functionality for Login User
+
+[33mcommit 89cd57dbd680cdecf98d2d76813b8366a5cc93a6[m
+Author: vladmoisei <vladmoisei@yahoo.com>
+Date:   Mon Oct 19 14:27:04 2020 +0300
+
+    Add Instructions Page
+
+[33mcommit 8f1b6cfb78426f0dc7d111cb284e57969c5dcda8[m
+Author: vlad moisei <vladmoisei@yahoo.com>
+Date:   Fri Oct 16 11:35:27 2020 +0100
+
+    Modify Mail message, and delete problems only by Admin, and Layout View
+
+[33mcommit 4e31499d00088101ca11461ae7105875fa12629a[m
+Author: vlad moisei <vladmoisei@yahoo.com>
+Date:   Thu Oct 15 17:13:30 2020 +0100
+
+    Mail Mail service, when you create a new problem to send a notification on Email
+
+[33mcommit 92bf84e3935631885beb374bd30d7c7155750ede[m
+Author: vlad moisei <vladmoisei@yahoo.com>
+Date:   Wed Oct 14 13:56:33 2020 +0100
+
+    Make to show Problems by seletion of Date From and Date To
+
+[33mcommit c97117e42df1bce1285355502a2dccb5de238f39[m
+Author: vlad moisei <vladmoisei@yahoo.com>
+Date:   Wed Oct 14 12:13:55 2020 +0100
+
+    Make GridView Functionality with Excel Export, Filtering, Sort, Search
+
+[33mcommit 9fb84b7a472aed9d81ab4f4846050868cdf000bc[m
+Author: vlad moisei <vladmoisei@yahoo.com>
+Date:   Tue Oct 13 16:49:42 2020 +0100
+
+    Add Grid View To Problems View
+
+[33mcommit df660a51163052d48499486e4d8abe4b13611767[m
+Author: vlad moisei <vladmoisei@yahoo.com>
+Date:   Tue Oct 13 15:48:55 2020 +0100
+
+    Make Edita Problems on Roles
+
+[33mcommit fd533de8002decf432887d78cbf3a65c1ab3d3d1[m
+Author: vlad moisei <vladmoisei@yahoo.com>
+Date:   Wed Oct 7 11:42:20 2020 +0100
+
+    Create Controllers for: Repsonsabil, Utilaj si Probleme
+
+[33mcommit 21e72885924c201d997d3b86098748bc525891f8[m
+Author: vlad moisei <vladmoisei@yahoo.com>
+Date:   Wed Oct 7 09:39:44 2020 +0100
+
+    Add Models
+
+[33mcommit f4458cb09738c56accb2ab9f2358fc66659103a3[m
+Author: unknown <vladmoisei@yahoo.com>
+Date:   Sun Apr 26 18:12:51 2020 +0300
+
+    Finish Identity controller with roles and claims
+
+[33mcommit 9a5123863f8b833c9bfc2bf6fe5888d82b739c43[m
+Author: unknown <vladmoisei@yahoo.com>
+Date:   Tue Apr 21 19:41:31 2020 +0300
+
+    Add Signin and signout methods
+
+[33mcommit 530e7709055c905c1cd63c409c110a5bfa2767c9[m
+Author: unknown <vladmoisei@yahoo.com>
+Date:   Mon Apr 20 19:59:12 2020 +0300
+
+    Add Mail Service functionality
+
+[33mcommit 96bff3bbcc740e73a35c800f3e7da6eb086d369e[m
+Author: unknown <vladmoisei@yahoo.com>
+Date:   Sat Apr 18 17:31:43 2020 +0300
+
+    Add NuGet Packages for Identity and Configuration in Startup and IdentityDbContext
+
+[33mcommit 3bdf5d7ec918c1f4004245e73bfd694af92913f1[m
+Author: Vlad Moisei <vladmoisei@yahoo.com>
+Date:   Sun Feb 9 19:40:45 2020 +0200
+
+    Initial commit

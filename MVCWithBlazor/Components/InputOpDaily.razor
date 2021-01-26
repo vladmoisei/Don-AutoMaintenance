@@ -1,0 +1,58 @@
+﻿
+@{
+    // Daca e dapasita data curenta si nu e bifat pun font rosu
+    string stil = "";
+    DayOfWeek day = new DateTime(check.DataLucru.Year, check.DataLucru.Month, check.DataLucru.Day).DayOfWeek;
+    if (DateTime.Compare(check.DataLucru, DateTime.Now) < 0)
+    {
+        if (day == DayOfWeek.Saturday || day == DayOfWeek.Sunday)
+        {
+            stil = "background-color: yellow";
+        }
+        else if (!check.IsCheckedByOp)
+        {
+            stil = "background-color: red";
+        }
+    }
+}
+@*Daca nu e bifat de operator punem cu font rosu*@
+<td style="@stil">
+    <label>@check.DataLucru.ToString("dd.MM.yyyy")</label>
+    @if (check.DataLucru.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy"))
+    {
+        @if (check.IsCheckedByOp)
+        {
+            <input type="checkbox" checked @onchange="@(async (e) =>
+              await handleCheckByOperator.InvokeAsync(check.ActionCheckModelID))" />
+        }
+        else
+        {
+            <input type="checkbox" @onchange="@(async (e) =>
+              await handleCheckByOperator.InvokeAsync(check.ActionCheckModelID))" />
+        }
+    }
+    else
+    {
+        @if (check.IsCheckedByOp)
+        {
+            <input type="checkbox" disabled checked @onchange="@(async (e) =>
+              await handleCheckByOperator.InvokeAsync(check.ActionCheckModelID))" />
+        }
+        else
+        {
+            <input type="checkbox" disabled @onchange="@(async (e) =>
+              await     handleCheckByOperator.InvokeAsync(check.ActionCheckModelID))" />
+        }
+    }
+    <label>@check.ActiuneModel.Descriere</label>
+    <label>User: @check.Username</label>
+    <label>Data Bifat: @check.DataBifatByOp</label>
+</td>
+@code {
+    [Parameter]
+    public ActionCheckModel check { get; set; }
+
+    [Parameter]
+    public EventCallback<int> handleCheckByOperator { get; set; }
+
+}

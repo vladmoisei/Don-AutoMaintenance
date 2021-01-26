@@ -1,0 +1,57 @@
+﻿
+@{
+    // Daca e dapasita data curenta si nu e bifat pun font rosu
+    string stil = "";
+    DayOfWeek day = new DateTime(check.DataLucru.Year, check.DataLucru.Month, check.DataLucru.Day).DayOfWeek;
+    if (DateTime.Compare(check.DataLucru.AddDays(daysDelay), DateTime.Now) < 0)
+    {
+    if (!check.IsCheckedBySef)
+        {
+            stil = "background-color: red";
+        }
+    }
+}
+@*Daca nu e bifat de operator punem cu font rosu*@
+<td style="@stil">
+    <label>@check.DataLucru.ToString("dd.MM.yyyy")</label>
+    @if (DateTime.Compare(check.DataLucru.AddDays(daysDelay), DateTime.Now) > 0)
+    {
+        @if (check.IsCheckedBySef)
+        {
+            <input type="checkbox" checked @onchange="@(async (e) =>
+              await handleCheckBySef.InvokeAsync(check.ActionCheckModelID))" />
+        }
+        else
+        {
+            <input type="checkbox" @onchange="@(async (e) =>
+              await handleCheckBySef.InvokeAsync(check.ActionCheckModelID))" />
+        }
+    }
+    else
+    {
+        @if (check.IsCheckedBySef)
+        {
+            <input type="checkbox" disabled checked @onchange="@(async (e) =>
+              await handleCheckBySef.InvokeAsync(check.ActionCheckModelID))" />
+        }
+        else
+        {
+            <input type="checkbox" disabled @onchange="@(async (e) =>
+              await     handleCheckBySef.InvokeAsync(check.ActionCheckModelID))" />
+        }
+    }
+    <label>@check.ActiuneModel.Descriere</label>
+    <label>User: @check.SefDeSchimb</label>
+    <label>Data Bifat: @check.DataBifatBySef</label>
+</td>
+@code {
+    [Parameter]
+    public ActionCheckModel check { get; set; }
+
+    [Parameter]
+    public EventCallback<int> handleCheckBySef { get; set; }
+
+    [Parameter]
+    public int daysDelay { get; set; }
+
+}

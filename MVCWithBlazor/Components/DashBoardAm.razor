@@ -1,4 +1,5 @@
 ﻿@inject IDashboardService DashboardService
+
 @using System;
 @*@inject Auxiliar auxiliar*@
 <div class="container-fluid">
@@ -44,23 +45,31 @@
         <DailyActionChecks dataSelectata="@dataSelectata"
                            utilajSelectatId="@utilajSelectatId"
                            ListaActiuniZilnice="@ListaActiuniZilnice"
-                           ListaVerificariZilnice="@ListaVerificariZilnice" />
+                           ListaVerificariZilnice="@ListaVerificariZilnice"
+                           handleCheckByOperator="@handleCheckByOperator"
+                           handleCheckBySef="@handleCheckBySef" />
 
         <WeeklyActionChecks dataSelectata="@dataSelectata"
                             utilajSelectatId="@utilajSelectatId"
                             ListaActiuniSaptamanale="@ListaActiuniSaptamanale"
-                            ListaVerificariSaptamanale="@ListaVerificariSaptamanale" />
+                            ListaVerificariSaptamanale="@ListaVerificariSaptamanale"
+                            handleCheckByOperator="@handleCheckByOperator"
+                            handleCheckBySef="@handleCheckBySef" />
 
         <MonthlyActionChecks dataSelectata="@dataSelectata"
                              utilajSelectatId="@utilajSelectatId"
                              ListaActiuniLunare="@ListaActiuniLunare"
-                             ListaVerificariLunare="@ListaVerificariLunare" />
+                             ListaVerificariLunare="@ListaVerificariLunare"
+                             handleCheckByOperator="@handleCheckByOperator"
+                             handleCheckBySef="@handleCheckBySef" />
         @if (ListaVerificaiTrimestriale.Count > 0)
         {
             <TrimestrialActionChecks dataSelectata="@dataSelectata"
                                      utilajSelectatId="@utilajSelectatId"
                                      ListaActiuniTrimestriale="@ListaActiuniTrimestriale"
-                                     ListaVerificaiTrimestriale="@ListaVerificaiTrimestriale" />
+                                     ListaVerificaiTrimestriale="@ListaVerificaiTrimestriale"
+                                     handleCheckByOperator="@handleCheckByOperator"
+                                     handleCheckBySef="@handleCheckBySef" />
         }
 
         @if (ListaVerificariSemestriale.Count > 0)
@@ -68,7 +77,9 @@
             <SemestrialActionChecks dataSelectata="@dataSelectata"
                                     utilajSelectatId="@utilajSelectatId"
                                     ListaActiuniSemestriale="@ListaActiuniSemestriale"
-                                    ListaVerificariSemestriale="@ListaVerificariSemestriale" />
+                                    ListaVerificariSemestriale="@ListaVerificariSemestriale"
+                                    handleCheckByOperator="@handleCheckByOperator"
+                                    handleCheckBySef="@handleCheckBySef" />
         }
     }
 
@@ -93,7 +104,9 @@
     int utilajSelectatId;
     bool isUtilajSelectat;
     DateTime dataSelectata;
-    
+    [Inject]
+    private Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor { get; set; } = default!;
+
     List<UtilajModel> ListaUtilaje { get; set; }
     List<ActiuneModel> ListaActiuniZilnice { get; set; }
     List<ActiuneModel> ListaActiuniSaptamanale { get; set; }
@@ -144,5 +157,27 @@
     {
         ListaUtilaje = await DashboardService.GetListOfUtilaj();
         dataSelectata = DateTime.Now;
+    }
+
+    async Task handleCheckByOperator(int checkID)
+    {
+        // Change only if User is operator or Admin
+        if (HttpContextAccessor.HttpContext.User.IsInRole("Member") ||
+            HttpContextAccessor.HttpContext.User.IsInRole("Admin"))
+        {
+            string user = HttpContextAccessor.HttpContext.User.Identity.Name;
+            await DashboardService.HandleCheckByOperator(checkID, user);
+        }
+    }
+
+    async Task handleCheckBySef(int checkID)
+    {
+        // Change only if User is Ajustaj (Sef de schimb sef zona ajustaj) or Admin
+        if (HttpContextAccessor.HttpContext.User.IsInRole("Ajustaj") ||
+        HttpContextAccessor.HttpContext.User.IsInRole("Admin"))
+        {
+            string user = HttpContextAccessor.HttpContext.User.Identity.Name;
+            await DashboardService.HandleCheckBySef(checkID, user);
+        }
     }
 }
