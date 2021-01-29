@@ -54,52 +54,24 @@ namespace MVCWithBlazor.Services
         // Add Daily Checks
         public async Task AddNewDailyChecks(int utilajSelectatId, DateTime data)
         {
-            List<ActiuneModel> ListaActiuni = await GetActiuniByTipAndByUtilaj(TipActiune.Zilnic, utilajSelectatId);
-            foreach (ActiuneModel actiune in ListaActiuni)
+            var actionChecks = await GetDailyChecks(utilajSelectatId, data);
+
+            if (actionChecks.Count == 0)
             {
-                for (int i = 0; i < DateTime.DaysInMonth(data.Year, data.Month); i++)
+                List<ActiuneModel> ListaActiuni = await GetActiuniByTipAndByUtilaj(TipActiune.Zilnic, utilajSelectatId);
+                foreach (ActiuneModel actiune in ListaActiuni)
                 {
-                    // Add Acton check by operator
-                    _context.Add(new ActionCheckModel
-                    {
-                        ActiuneModelID = actiune.ActiuneModelID,
-                        DataLucru = new DateTime(data.Year, data.Month, i + 1)
-                    });
-
-                    // Add Action Check by sef de schimb
-                    _context.Add(new ActionCheckModel
-                    {
-                        ActiuneModelID = actiune.ActiuneModelID,
-                        DataLucru = new DateTime(data.Year, data.Month, i + 1),
-                        SefDeSchimb = "sef"
-                    });
-                }
-            }
-
-            await _context.SaveChangesAsync();
-        }
-
-        // Add Weekly Checks
-        public async Task AddNewWeeklyChecks(int utilajSelectatId, DateTime data)
-        {
-            List<ActiuneModel> ListaActiuni = await GetActiuniByTipAndByUtilaj(TipActiune.Saptamanal, utilajSelectatId);
-            foreach (ActiuneModel actiune in ListaActiuni)
-            {
-                for (int i = 0; i < DateTime.DaysInMonth(data.Year, data.Month); i++)
-                {
-                    DayOfWeek day = new DateTime(data.Year, data.Month, i + 1).DayOfWeek;
-                    // Add only on monday weekly actions
-                    if (day == DayOfWeek.Monday)
+                    for (int i = 0; i < DateTime.DaysInMonth(data.Year, data.Month); i++)
                     {
                         // Add Acton check by operator
-                        _context.CheckModels.Add(new ActionCheckModel
+                        _context.Add(new ActionCheckModel
                         {
                             ActiuneModelID = actiune.ActiuneModelID,
                             DataLucru = new DateTime(data.Year, data.Month, i + 1)
                         });
 
                         // Add Action Check by sef de schimb
-                        _context.CheckModels.Add(new ActionCheckModel
+                        _context.Add(new ActionCheckModel
                         {
                             ActiuneModelID = actiune.ActiuneModelID,
                             DataLucru = new DateTime(data.Year, data.Month, i + 1),
@@ -107,115 +79,175 @@ namespace MVCWithBlazor.Services
                         });
                     }
                 }
-            }
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+            }
         }
 
+        // Add Weekly Checks
+        public async Task AddNewWeeklyChecks(int utilajSelectatId, DateTime data)
+        {
+            var actionChecks = await GetWeeklyChecks(utilajSelectatId, data);
+
+            if (actionChecks.Count == 0)
+            {
+                {
+                    List<ActiuneModel> ListaActiuni = await GetActiuniByTipAndByUtilaj(TipActiune.Saptamanal, utilajSelectatId);
+                    foreach (ActiuneModel actiune in ListaActiuni)
+                    {
+                        for (int i = 0; i < DateTime.DaysInMonth(data.Year, data.Month); i++)
+                        {
+                            DayOfWeek day = new DateTime(data.Year, data.Month, i + 1).DayOfWeek;
+                            // Add only on monday weekly actions
+                            if (day == DayOfWeek.Monday)
+                            {
+                                // Add Acton check by operator
+                                _context.CheckModels.Add(new ActionCheckModel
+                                {
+                                    ActiuneModelID = actiune.ActiuneModelID,
+                                    DataLucru = new DateTime(data.Year, data.Month, i + 1)
+                                });
+
+                                // Add Action Check by sef de schimb
+                                _context.CheckModels.Add(new ActionCheckModel
+                                {
+                                    ActiuneModelID = actiune.ActiuneModelID,
+                                    DataLucru = new DateTime(data.Year, data.Month, i + 1),
+                                    SefDeSchimb = "sef"
+                                });
+                            }
+                        }
+                    }
+                    await _context.SaveChangesAsync();
+                }
+
+            }
+        }
         // Add Monthly Checks
         public async Task AddNewMonthlyChecks(int utilajSelectatId, DateTime data)
         {
-            List<ActiuneModel> ListaActiuni = await GetActiuniByTipAndByUtilaj(TipActiune.Lunar, utilajSelectatId);
-            foreach (ActiuneModel actiune in ListaActiuni)
+            var actionChecks = await GetMonthlyChecks(utilajSelectatId, data);
+
+            if (actionChecks.Count == 0)
             {
-                // Add only on 1st day monthly actions
-                // Add Acton check by operator
-                _context.Add(new ActionCheckModel
-                {
-                    ActiuneModelID = actiune.ActiuneModelID,
-                    DataLucru = new DateTime(data.Year, data.Month, 1)
-                });
 
-                // Add Action Check by sef de schimb
-                _context.Add(new ActionCheckModel
+                List<ActiuneModel> ListaActiuni = await GetActiuniByTipAndByUtilaj(TipActiune.Lunar, utilajSelectatId);
+                foreach (ActiuneModel actiune in ListaActiuni)
                 {
-                    ActiuneModelID = actiune.ActiuneModelID,
-                    DataLucru = new DateTime(data.Year, data.Month, 1),
-                    SefDeSchimb = "sef"
-                });
+                    // Add only on 1st day monthly actions
+                    // Add Acton check by operator
+                    _context.Add(new ActionCheckModel
+                    {
+                        ActiuneModelID = actiune.ActiuneModelID,
+                        DataLucru = new DateTime(data.Year, data.Month, 1)
+                    });
 
+                    // Add Action Check by sef de schimb
+                    _context.Add(new ActionCheckModel
+                    {
+                        ActiuneModelID = actiune.ActiuneModelID,
+                        DataLucru = new DateTime(data.Year, data.Month, 1),
+                        SefDeSchimb = "sef"
+                    });
+
+                }
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
         }
 
         // Add Trimestrial Checks
         public async Task AddNewTrimestrialChecks(int utilajSelectatId, DateTime data)
         {
-            List<ActiuneModel> ListaActiuni = await GetActiuniByTipAndByUtilaj(TipActiune.Trimestrial, utilajSelectatId);
-            foreach (ActiuneModel actiune in ListaActiuni)
+            var actionChecks = await GetTrimestrialChecks(utilajSelectatId, data);
+
+            if (actionChecks.Count == 0)
             {
-                // Add only on 1st day trimestrial actions
-                // Add Acton check by operator
-                _context.Add(new ActionCheckModel
+                List<ActiuneModel> ListaActiuni = await GetActiuniByTipAndByUtilaj(TipActiune.Trimestrial, utilajSelectatId);
+                foreach (ActiuneModel actiune in ListaActiuni)
                 {
-                    ActiuneModelID = actiune.ActiuneModelID,
-                    DataLucru = new DateTime(data.Year, data.Month, 1)
-                });
+                    // Add only on 1st day trimestrial actions
+                    // Add Acton check by operator
+                    _context.Add(new ActionCheckModel
+                    {
+                        ActiuneModelID = actiune.ActiuneModelID,
+                        DataLucru = new DateTime(data.Year, data.Month, 1)
+                    });
 
-                // Add Action Check by sef de schimb
-                _context.Add(new ActionCheckModel
-                {
-                    ActiuneModelID = actiune.ActiuneModelID,
-                    DataLucru = new DateTime(data.Year, data.Month, 1),
-                    SefDeSchimb = "sef"
-                });
+                    // Add Action Check by sef de schimb
+                    _context.Add(new ActionCheckModel
+                    {
+                        ActiuneModelID = actiune.ActiuneModelID,
+                        DataLucru = new DateTime(data.Year, data.Month, 1),
+                        SefDeSchimb = "sef"
+                    });
 
+                }
+
+                await _context.SaveChangesAsync();
             }
-
-            await _context.SaveChangesAsync();
         }
 
         // Add Semestrial Checks
         public async Task AddNewSemestrialChecks(int utilajSelectatId, DateTime data)
         {
-            List<ActiuneModel> ListaActiuni = await GetActiuniByTipAndByUtilaj(TipActiune.Semestrial, utilajSelectatId);
-            foreach (ActiuneModel actiune in ListaActiuni)
+            var actionChecks = await GetSemestrialChecks(utilajSelectatId, data);
+
+            if (actionChecks.Count == 0)
             {
-                // Add only on 1st day semestrial actions
-                // Add Acton check by operator
-                _context.Add(new ActionCheckModel
+                List<ActiuneModel> ListaActiuni = await GetActiuniByTipAndByUtilaj(TipActiune.Semestrial, utilajSelectatId);
+                foreach (ActiuneModel actiune in ListaActiuni)
                 {
-                    ActiuneModelID = actiune.ActiuneModelID,
-                    DataLucru = new DateTime(data.Year, data.Month, 1)
-                });
+                    // Add only on 1st day semestrial actions
+                    // Add Acton check by operator
+                    _context.Add(new ActionCheckModel
+                    {
+                        ActiuneModelID = actiune.ActiuneModelID,
+                        DataLucru = new DateTime(data.Year, data.Month, 1)
+                    });
 
-                // Add Action Check by sef de schimb
-                _context.Add(new ActionCheckModel
-                {
-                    ActiuneModelID = actiune.ActiuneModelID,
-                    DataLucru = new DateTime(data.Year, data.Month, 1),
-                    SefDeSchimb = "sef"
-                });
+                    // Add Action Check by sef de schimb
+                    _context.Add(new ActionCheckModel
+                    {
+                        ActiuneModelID = actiune.ActiuneModelID,
+                        DataLucru = new DateTime(data.Year, data.Month, 1),
+                        SefDeSchimb = "sef"
+                    });
+                }
+
+                await _context.SaveChangesAsync();
             }
-
-            await _context.SaveChangesAsync();
         }
 
         // Add Anual Checks
         public async Task AddNewAnualChecks(int utilajSelectatId, DateTime data)
         {
-            List<ActiuneModel> ListaActiuni = await GetActiuniByTipAndByUtilaj(TipActiune.Anual, utilajSelectatId);
-            foreach (ActiuneModel actiune in ListaActiuni)
+            var actionChecks = await GetAnualChecks(utilajSelectatId, data);
+
+            if (actionChecks.Count == 0)
             {
-                // Add only on 1st day anual actions
-                // Add Acton check by operator
-                _context.Add(new ActionCheckModel
+                List<ActiuneModel> ListaActiuni = await GetActiuniByTipAndByUtilaj(TipActiune.Anual, utilajSelectatId);
+                foreach (ActiuneModel actiune in ListaActiuni)
                 {
-                    ActiuneModelID = actiune.ActiuneModelID,
-                    DataLucru = new DateTime(data.Year, data.Month, 1)
-                });
+                    // Add only on 1st day anual actions
+                    // Add Acton check by operator
+                    _context.Add(new ActionCheckModel
+                    {
+                        ActiuneModelID = actiune.ActiuneModelID,
+                        DataLucru = new DateTime(data.Year, data.Month, 1)
+                    });
 
-                // Add Action Check by sef de schimb
-                _context.Add(new ActionCheckModel
-                {
-                    ActiuneModelID = actiune.ActiuneModelID,
-                    DataLucru = new DateTime(data.Year, data.Month, 1),
-                    SefDeSchimb="sef"
-                });
+                    // Add Action Check by sef de schimb
+                    _context.Add(new ActionCheckModel
+                    {
+                        ActiuneModelID = actiune.ActiuneModelID,
+                        DataLucru = new DateTime(data.Year, data.Month, 1),
+                        SefDeSchimb = "sef"
+                    });
+                }
+
+                await _context.SaveChangesAsync();
             }
-
-            await _context.SaveChangesAsync();
         }
 
         // Creaza verificari pentru toata luna, pentru toate utilajele
@@ -224,13 +256,13 @@ namespace MVCWithBlazor.Services
             // For each utilaj add checks every month
             foreach (var utilaj in await GetListOfUtilaj())
             {
-            await AddNewDailyChecks(utilaj.UtilajModelID, data);
-            await AddNewWeeklyChecks(utilaj.UtilajModelID, data);
-            await AddNewMonthlyChecks(utilaj.UtilajModelID, data);
-            if (data.Month % 3 == 0)
-                await AddNewTrimestrialChecks(utilaj.UtilajModelID, data);
-            if (data.Month % 6 == 0)
-                await AddNewSemestrialChecks(utilaj.UtilajModelID, data);
+                await AddNewDailyChecks(utilaj.UtilajModelID, data);
+                await AddNewWeeklyChecks(utilaj.UtilajModelID, data);
+                await AddNewMonthlyChecks(utilaj.UtilajModelID, data);
+                if (data.Month % 3 == 0)
+                    await AddNewTrimestrialChecks(utilaj.UtilajModelID, data);
+                if (data.Month % 6 == 0)
+                    await AddNewSemestrialChecks(utilaj.UtilajModelID, data);
             }
         }
 
@@ -249,11 +281,11 @@ namespace MVCWithBlazor.Services
         // Get Weekly Actions by utilaj and by month
         public async Task<List<ActionCheckModel>> GetWeeklyChecks(int utilajSelectatId, DateTime data)
         {
-            var actiuniSaptamanale= await _context.CheckModels.Include(o => o.ActiuneModel).Where(check =>
-            check.ActiuneModel.UtilajModelID == utilajSelectatId &&
-            check.ActiuneModel.Tip == TipActiune.Saptamanal &&
-            check.DataLucru.Year == data.Year &&
-            check.DataLucru.Month == data.Month).ToListAsync();
+            var actiuniSaptamanale = await _context.CheckModels.Include(o => o.ActiuneModel).Where(check =>
+             check.ActiuneModel.UtilajModelID == utilajSelectatId &&
+             check.ActiuneModel.Tip == TipActiune.Saptamanal &&
+             check.DataLucru.Year == data.Year &&
+             check.DataLucru.Month == data.Month).ToListAsync();
 
             return actiuniSaptamanale;
         }

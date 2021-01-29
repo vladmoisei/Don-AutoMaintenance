@@ -31,12 +31,12 @@
 && obj.SefDeSchimb == null).ToList())
                     {
 
-                <td>
+                
                     <InputOpWeekly check="@check" handleCheckByOperator="@handleCheckByOperator" daysDelay="30" />
                     @*<label>@check.DataLucru.ToString("dd.MM.yyyy")</label>
         <input type="checkbox" />
         <label>@check.ActiuneModel.Descriere</label>*@
-                </td>
+                
 
                     }
                 </tr>
@@ -50,20 +50,20 @@
                 @{
                     DateTime day = new DateTime(dataSelectata.Year, dataSelectata.Month, 1);
                     // Add only on 01 monthly actions
-                                <td>
-                                    <label>@day.ToString("dd.MM.yyyy")</label>
-                                    @{var checkSef = ListaVerificariLunare.FirstOrDefault(obj => obj.DataLucru.Year == day.Year
+                                
+                                    @*<label>@day.ToString("dd.MM.yyyy")</label>*@
+                                    var checkSef = ListaVerificariLunare.FirstOrDefault(obj => obj.DataLucru.Year == day.Year
                                                               && obj.DataLucru.Month == day.Month && obj.DataLucru.Day == day.Day
                                                               && obj.SefDeSchimb != null);
-                                    }
-                                    @if (checkSef != null)
+                                    
+                                    if (checkSef != null)
                                     {
                                         <InputSefWeekly check="@checkSef" handleCheckBySef="@handleCheckBySef" daysDelay="30" />
                                         @*<label>@checkSef.DataLucru.ToString("dd.MM.yyyy")</label>
             <input type="checkbox" />
             <label>@checkSef.ActiuneModel.Descriere</label>*@
                                     }
-                                </td>
+                                
                 }
             </tr>
         </tbody>

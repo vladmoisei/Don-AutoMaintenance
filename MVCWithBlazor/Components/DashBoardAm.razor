@@ -7,28 +7,13 @@
     <div class="row">
         <div class="col-lg-4">
             <label class="font-weight-bold">Utilaj: </label>
-
-            @if (ListaUtilaje == null)
-            {
-                <em>Loading...</em>
-            }
-            else
-            {
-                <select class="form-control" @onchange="@handleChangeUtilajEvent">
-                    <option>Selecteaza un utilaj</option>
-
-                    @foreach (var cnt in ListaUtilaje)
-                    {
-                        <option value="@cnt.UtilajModelID">@cnt.Utilaj</option>
-                    }
-
-                </select>
-            }
+            <InputSelectUtilaj ListaUtilaje="@ListaUtilaje" handleChangeUtilajEvent="@handleChangeUtilajEvent" />
         </div>
         <div class="col-lg-4">
             <label class="font-weight-bold">Data: </label>
             @*@bind="dataSelectata"*@
-            <input class="form-control" type="month" id="start" name="start" min="2019-12" @bind="@dataSelectata" />
+            <input class="form-control" type="month" id="start" name="start" min="2019-12" value="@dataSelectata.ToString("yyyy-MM")"
+                   @onchange="@handleChangeDateEvent" />
         </div>
     </div>
     <div class="row">
@@ -90,14 +75,17 @@
         TO DO .. trimistriale
         TO DO ... semestriale
         TO DO ... anuale*@
-    <div class="row">
-        <label>Creare Verificari Actiuni pentru: </label>
-        <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-outline-dark" @onclick="@handleCreateMonthChecksEvent">Lunar(toate utilajele)</button>
-            <button type="button" class="btn btn-outline-dark">Trimestriale</button>
-            <button type="button" class="btn btn-outline-dark">Semestriale</button>
+    @if (!HttpContextAccessor.HttpContext.User.IsInRole("Member"))
+    {
+        <div class="row">
+            <label>Creare Verificari Actiuni pentru: </label>
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-outline-dark" @onclick="@handleCreateMonthChecksEvent">Lunar(toate utilajele)</button>
+                <button type="button" class="btn btn-outline-dark" @onclick="@handleCreateTrimestrialChecksEvent">Trimestriale</button>
+                <button type="button" class="btn btn-outline-dark" @onclick="@handleCreateSemestrialChecksEvent">Semestriale</button>
+            </div>
         </div>
-    </div>
+    }
 </div>
 
 @code {
@@ -148,9 +136,55 @@
 
     }
 
+    public async void handleChangeDateEvent(ChangeEventArgs e)
+    {
+        try
+        {
+            dataSelectata = Convert.ToDateTime(e.Value.ToString());
+        }
+        catch (FormatException ex)
+        {
+            return;
+        }
+
+        ListaActiuniZilnice = await DashboardService.GetActiuniByTipAndByUtilaj(TipActiune.Zilnic, utilajSelectatId);
+        ListaActiuniSaptamanale = await DashboardService.GetActiuniByTipAndByUtilaj(TipActiune.Saptamanal, utilajSelectatId);
+        ListaActiuniLunare = await DashboardService.GetActiuniByTipAndByUtilaj(TipActiune.Lunar, utilajSelectatId);
+        ListaActiuniTrimestriale = await DashboardService.GetActiuniByTipAndByUtilaj(TipActiune.Trimestrial, utilajSelectatId);
+        ListaActiuniSemestriale = await DashboardService.GetActiuniByTipAndByUtilaj(TipActiune.Semestrial, utilajSelectatId);
+
+        ListaVerificariZilnice = await DashboardService.GetDailyChecks(utilajSelectatId, dataSelectata);
+        ListaVerificariSaptamanale = await DashboardService.GetWeeklyChecks(utilajSelectatId, dataSelectata);
+        ListaVerificariLunare = await DashboardService.GetMonthlyChecks(utilajSelectatId, dataSelectata);
+        ListaVerificaiTrimestriale = await DashboardService.GetTrimestrialChecks(utilajSelectatId, dataSelectata);
+        ListaVerificariSemestriale = await DashboardService.GetSemestrialChecks(utilajSelectatId, dataSelectata);
+
+        isUtilajSelectat = true;
+        StateHasChanged();
+    }
+
     public async void handleCreateMonthChecksEvent()
     {
         await DashboardService.CreateChecksPerMonth(dataSelectata);
+    }
+
+    public async void handleCreateTrimestrialChecksEvent()
+    {
+        // For each utilaj add checks every month
+        foreach (var utilaj in await DashboardService.GetListOfUtilaj())
+        {
+            await DashboardService.AddNewTrimestrialChecks(utilaj.UtilajModelID, dataSelectata);
+        }
+
+    }
+
+    public async void handleCreateSemestrialChecksEvent()
+    {
+        // For each utilaj add checks every month
+        foreach (var utilaj in await DashboardService.GetListOfUtilaj())
+        {
+            await DashboardService.AddNewSemestrialChecks(utilaj.UtilajModelID, dataSelectata);
+        }
     }
 
     protected override async Task OnInitializedAsync()

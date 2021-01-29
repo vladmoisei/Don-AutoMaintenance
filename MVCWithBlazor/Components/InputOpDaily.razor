@@ -17,36 +17,36 @@
 }
 @*Daca nu e bifat de operator punem cu font rosu*@
 <td style="@stil">
-    <label>@check.DataLucru.ToString("dd.MM.yyyy")</label>
+    @*<label>@check.DataLucru.ToString("dd.MM.yyyy")</label>*@
     @if (check.DataLucru.ToString("dd.MM.yyyy") == DateTime.Now.ToString("dd.MM.yyyy"))
     {
         @if (check.IsCheckedByOp)
         {
-            <input type="checkbox" checked @onchange="@(async (e) =>
-              await handleCheckByOperator.InvokeAsync(check.ActionCheckModelID))" />
+            <input type="checkbox" checked class="form-control"
+                   @onchange="@(async (e) => await handleCheckByOperator.InvokeAsync(check.ActionCheckModelID))" />
         }
         else
         {
-            <input type="checkbox" @onchange="@(async (e) =>
-              await handleCheckByOperator.InvokeAsync(check.ActionCheckModelID))" />
+            <input type="checkbox" class="form-control"
+                   @onchange="@(async (e) => await handleCheckByOperator.InvokeAsync(check.ActionCheckModelID))" />
         }
     }
     else
     {
         @if (check.IsCheckedByOp)
         {
-            <input type="checkbox" disabled checked @onchange="@(async (e) =>
-              await handleCheckByOperator.InvokeAsync(check.ActionCheckModelID))" />
+            <input type="checkbox" disabled checked class="form-control" 
+                   @onchange="@(async (e) => await handleCheckByOperator.InvokeAsync(check.ActionCheckModelID))" />
         }
         else
         {
-            <input type="checkbox" disabled @onchange="@(async (e) =>
-              await     handleCheckByOperator.InvokeAsync(check.ActionCheckModelID))" />
+            <input type="checkbox" disabled class="form-control"
+                   @onchange="@(async (e) => await handleCheckByOperator.InvokeAsync(check.ActionCheckModelID))" />
         }
     }
-    <label>@check.ActiuneModel.Descriere</label>
+    @*<label>@check.ActiuneModel.Descriere</label>
     <label>User: @check.Username</label>
-    <label>Data Bifat: @check.DataBifatByOp</label>
+    <label>Data Bifat: @check.DataBifatByOp</label>*@
 </td>
 @code {
     [Parameter]

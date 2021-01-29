@@ -1,0 +1,58 @@
+﻿@if (ListaUtilajeDeAfisat == null)
+{
+    <em>Loading...</em>
+}
+else
+{
+    <select class="form-control" @onchange="@handleChangeUtilajEvent">
+        <option>Selecteaza un utilaj</option>
+
+        @foreach (var cnt in ListaUtilajeDeAfisat)
+        {
+            <option value="@cnt.UtilajModelID">@cnt.Utilaj</option>
+        }
+
+    </select>
+}
+@code {
+    [Parameter]
+    public List<UtilajModel> ListaUtilaje { set; get; }
+
+    public List<UtilajModel> ListaUtilajeDeAfisat { set; get; } = new List<UtilajModel>();
+
+    [Parameter]
+    public EventCallback<ChangeEventArgs> handleChangeUtilajEvent { get; set; }
+
+    [Inject]
+    private Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor { get; set; } = default!;
+
+    private bool isMember { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        //ListaActiuni = await DashboardService.GetActiuniByTipAndByUtilaj(TipActiune.Saptamanal, utilajSelectatId);
+        //ListaChecks = await DashboardService.GetWeeklyActions(utilajSelectatId, dataSelectata);
+    }
+
+    protected override void OnParametersSet()
+    {
+        ListaUtilajeDeAfisat = new List<UtilajModel>();
+        isMember = HttpContextAccessor.HttpContext.User.IsInRole("Member");
+        if (ListaUtilaje != null)
+        {
+            foreach (var utilaj in ListaUtilaje)
+            {
+                if (isMember)
+                {
+                    if (HttpContextAccessor.HttpContext.User.HasClaim("Department", utilaj.UtilajModelID.ToString()))
+                    {
+                        ListaUtilajeDeAfisat.Add(ListaUtilaje.FirstOrDefault(o => o.UtilajModelID == utilaj.UtilajModelID));
+                        break;
+                    }
+                }
+                else ListaUtilajeDeAfisat.Add(utilaj);
+            }
+        }
+    }
+
+}
